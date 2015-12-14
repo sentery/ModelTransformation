@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="ASCII"?>
+<code:MethodUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:action="http://www.eclipse.org/MoDisco/kdm/action" xmlns:code="http://www.eclipse.org/MoDisco/kdm/code" name="statement" type="//@codeElement.0">
+  <attribute tag="export" value="public"/>
+  <source language="java">
+    <region language="java">
+      <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+    </region>
+  </source>
+  <codeElement xsi:type="code:Signature" name="statement">
+    <parameterUnit kind="return">
+      <source language="java">
+        <region language="java"/>
+      </source>
+      <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.0/@codeElement.1/@codeElement.2"/>
+    </parameterUnit>
+  </codeElement>
+  <codeElement xsi:type="action:BlockUnit">
+    <source language="java">
+      <region language="java">
+        <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+      </region>
+    </source>
+    <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+      <codeElement xsi:type="code:StorableUnit" name="totalAmount" kind="local">
+        <attribute tag="export" value="none"/>
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <codeRelation xsi:type="code:HasValue" from="//@codeElement.1/@codeElement.0/@codeElement.0">
+          <to xsi:type="code:Value" href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.5"/>
+        </codeRelation>
+        <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.3"/>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+      <codeElement xsi:type="code:StorableUnit" name="renterPoints" kind="local">
+        <attribute tag="export" value="none"/>
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <codeRelation xsi:type="code:HasValue" from="//@codeElement.1/@codeElement.1/@codeElement.0">
+          <to xsi:type="code:Value" href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.6"/>
+        </codeRelation>
+        <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.0"/>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+      <codeElement xsi:type="code:StorableUnit" name="rentals" kind="local">
+        <attribute tag="export" value="none"/>
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <codeRelation xsi:type="code:HasValue" from="//@codeElement.1/@codeElement.2/@codeElement.0">
+          <to xsi:type="action:ActionElement" href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.7"/>
+        </codeRelation>
+        <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.0/@codeElement.0/@codeElement.0"/>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+      <codeElement xsi:type="code:StorableUnit" name="result" kind="local">
+        <attribute tag="export" value="none"/>
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <codeRelation xsi:type="code:HasValue" from="//@codeElement.1/@codeElement.3/@codeElement.0">
+          <to xsi:type="action:ActionElement" href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.8"/>
+        </codeRelation>
+        <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.0/@codeElement.1/@codeElement.2"/>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="action:ActionElement" name="while" kind="while">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+      <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.4/@codeElement.0">
+          <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.1/@codeElement.0"/>
+        </actionRelation>
+      </codeElement>
+      <codeElement xsi:type="action:BlockUnit">
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+          <source language="java">
+            <region language="java">
+              <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+            </region>
+          </source>
+          <codeElement xsi:type="code:StorableUnit" name="each" kind="local">
+            <attribute tag="export" value="none"/>
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <codeRelation xsi:type="code:HasValue" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.0/@codeElement.0">
+              <to xsi:type="action:ActionElement" href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.9"/>
+            </codeRelation>
+            <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.1"/>
+          </codeElement>
+        </codeElement>
+        <codeElement xsi:type="action:ActionElement" name="variable declaration" kind="variable declaration">
+          <source language="java">
+            <region language="java">
+              <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+            </region>
+          </source>
+          <codeElement xsi:type="code:StorableUnit" name="thisAmount" kind="local">
+            <attribute tag="export" value="none"/>
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <codeRelation xsi:type="code:HasValue" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.1/@codeElement.0">
+              <to xsi:type="code:Value" href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.10"/>
+            </codeRelation>
+            <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.3"/>
+          </codeElement>
+        </codeElement>
+        <codeElement xsi:type="action:ActionElement" name="if" kind="if">
+          <source language="java">
+            <region language="java">
+              <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+            </region>
+          </source>
+          <codeElement xsi:type="action:ActionElement" name="parenthesized" kind="parenthesized">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <codeElement xsi:type="action:ActionElement" name="EQUALS" kind="infix expression">
+              <source language="java">
+                <region language="java">
+                  <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                </region>
+              </source>
+              <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+                <source language="java">
+                  <region language="java">
+                    <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                  </region>
+                </source>
+                <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+                  <source language="java">
+                    <region language="java">
+                      <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                    </region>
+                  </source>
+                  <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.2/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.0">
+                    <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.1/@codeElement.4"/>
+                  </actionRelation>
+                </codeElement>
+                <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.2/@codeElement.0/@codeElement.0/@codeElement.0">
+                  <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.2/@codeElement.6"/>
+                </actionRelation>
+              </codeElement>
+            </codeElement>
+          </codeElement>
+          <codeElement xsi:type="action:ActionElement" name="expression statement" kind="expression statement">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <codeElement xsi:type="action:ActionElement" name="ASSIGN" kind="assignment">
+              <source language="java">
+                <region language="java">
+                  <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                </region>
+              </source>
+              <codeElement xsi:type="action:ActionElement" name="PLUS" kind="infix expression">
+                <source language="java">
+                  <region language="java">
+                    <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                  </region>
+                </source>
+                <codeElement xsi:type="code:Value" name="number literal" ext="2">
+                  <source language="java">
+                    <region language="java">
+                      <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                    </region>
+                  </source>
+                  <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.0"/>
+                </codeElement>
+              </codeElement>
+              <actionRelation xsi:type="action:Writes" to="//@codeElement.1/@codeElement.1/@codeElement.0" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.2/@codeElement.1/@codeElement.0"/>
+            </codeElement>
+          </codeElement>
+          <codeElement xsi:type="action:ActionElement" name="expression statement" kind="expression statement">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <codeElement xsi:type="action:ActionElement" name="INCREMENT" kind="postfix expression">
+              <source language="java">
+                <region language="java">
+                  <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                </region>
+              </source>
+            </codeElement>
+          </codeElement>
+        </codeElement>
+        <codeElement xsi:type="action:ActionElement" name="expression statement" kind="expression statement">
+          <source language="java">
+            <region language="java">
+              <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+            </region>
+          </source>
+          <codeElement xsi:type="action:ActionElement" name="PLUS_ASSIGN" kind="assignment">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <codeElement xsi:type="action:ActionElement" name="PLUS" kind="infix expression">
+              <source language="java">
+                <region language="java">
+                  <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                </region>
+              </source>
+              <codeElement xsi:type="code:Value" name="string literal" ext="&quot;\t&quot;">
+                <source language="java">
+                  <region language="java">
+                    <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                  </region>
+                </source>
+                <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.9"/>
+              </codeElement>
+              <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+                <source language="java">
+                  <region language="java">
+                    <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                  </region>
+                </source>
+                <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+                  <source language="java">
+                    <region language="java">
+                      <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                    </region>
+                  </source>
+                  <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.3/@codeElement.0/@codeElement.0/@codeElement.1/@codeElement.0">
+                    <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.1/@codeElement.4"/>
+                  </actionRelation>
+                </codeElement>
+                <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.3/@codeElement.0/@codeElement.0/@codeElement.1">
+                  <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.0/@codeElement.2/@codeElement.8"/>
+                </actionRelation>
+              </codeElement>
+              <codeElement xsi:type="code:Value" name="string literal" ext="&quot;\t&quot;">
+                <source language="java">
+                  <region language="java">
+                    <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                  </region>
+                </source>
+                <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.9"/>
+              </codeElement>
+              <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+                <source language="java">
+                  <region language="java">
+                    <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                  </region>
+                </source>
+                <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.3/@codeElement.0/@codeElement.0/@codeElement.3">
+                  <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.0/@codeElement.1/@codeElement.2/@codeElement.0"/>
+                </actionRelation>
+              </codeElement>
+              <codeElement xsi:type="code:Value" name="string literal" ext="&quot;\n&quot;">
+                <source language="java">
+                  <region language="java">
+                    <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                  </region>
+                </source>
+                <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.9"/>
+              </codeElement>
+            </codeElement>
+            <actionRelation xsi:type="action:Writes" to="//@codeElement.1/@codeElement.3/@codeElement.0" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.3/@codeElement.0"/>
+          </codeElement>
+        </codeElement>
+        <codeElement xsi:type="action:ActionElement" name="expression statement" kind="expression statement">
+          <source language="java">
+            <region language="java">
+              <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+            </region>
+          </source>
+          <codeElement xsi:type="action:ActionElement" name="ASSIGN" kind="assignment">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <codeElement xsi:type="action:ActionElement" name="PLUS" kind="infix expression">
+              <source language="java">
+                <region language="java">
+                  <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+                </region>
+              </source>
+            </codeElement>
+            <actionRelation xsi:type="action:Writes" to="//@codeElement.1/@codeElement.0/@codeElement.0" from="//@codeElement.1/@codeElement.4/@codeElement.1/@codeElement.4/@codeElement.0"/>
+          </codeElement>
+        </codeElement>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="action:ActionElement" name="expression statement" kind="expression statement">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+      <codeElement xsi:type="action:ActionElement" name="PLUS_ASSIGN" kind="assignment">
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <codeElement xsi:type="action:ActionElement" name="PLUS" kind="infix expression">
+          <source language="java">
+            <region language="java">
+              <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+            </region>
+          </source>
+          <codeElement xsi:type="code:Value" name="string literal" ext="&quot;Amount owed is&quot;">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.9"/>
+          </codeElement>
+          <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.5/@codeElement.0/@codeElement.0/@codeElement.1">
+              <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.0/@codeElement.1/@codeElement.2/@codeElement.0"/>
+            </actionRelation>
+          </codeElement>
+          <codeElement xsi:type="code:Value" name="string literal" ext="&quot;\n&quot;">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.9"/>
+          </codeElement>
+        </codeElement>
+        <actionRelation xsi:type="action:Writes" to="//@codeElement.1/@codeElement.3/@codeElement.0" from="//@codeElement.1/@codeElement.5/@codeElement.0"/>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="action:ActionElement" name="expression statement" kind="expression statement">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+      <codeElement xsi:type="action:ActionElement" name="PLUS_ASSIGN" kind="assignment">
+        <source language="java">
+          <region language="java">
+            <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+          </region>
+        </source>
+        <codeElement xsi:type="action:ActionElement" name="PLUS" kind="infix expression">
+          <source language="java">
+            <region language="java">
+              <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+            </region>
+          </source>
+          <codeElement xsi:type="code:Value" name="string literal" ext="&quot;You earned &quot;">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.9"/>
+          </codeElement>
+          <codeElement xsi:type="action:ActionElement" name="method invocation" kind="method invocation">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <actionRelation xsi:type="action:Calls" from="//@codeElement.1/@codeElement.6/@codeElement.0/@codeElement.0/@codeElement.1">
+              <to href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.1/@codeElement.0/@codeElement.1/@codeElement.2/@codeElement.1"/>
+            </actionRelation>
+          </codeElement>
+          <codeElement xsi:type="code:Value" name="string literal" ext="&quot; frequent renter points&quot;">
+            <source language="java">
+              <region language="java">
+                <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+              </region>
+            </source>
+            <type href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.0/@codeElement.1/@codeElement.9"/>
+          </codeElement>
+        </codeElement>
+        <actionRelation xsi:type="action:Writes" to="//@codeElement.1/@codeElement.3/@codeElement.0" from="//@codeElement.1/@codeElement.6/@codeElement.0"/>
+      </codeElement>
+    </codeElement>
+    <codeElement xsi:type="action:ActionElement" name="return" kind="return">
+      <source language="java">
+        <region language="java">
+          <file href="platform:/resource/HelloWorld/HelloWorld_kdm.xmi#/0/@model.2/@inventoryElement.0"/>
+        </region>
+      </source>
+    </codeElement>
+  </codeElement>
+</code:MethodUnit>

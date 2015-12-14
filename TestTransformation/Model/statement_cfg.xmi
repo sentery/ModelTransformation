@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:CFG="www.CFG.com">
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {IN!totalAmount}"/>
+  </CFG:StatementNode>
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {IN!renterPoints}"/>
+  </CFG:StatementNode>
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {IN!rentals}"/>
+  </CFG:StatementNode>
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {IN!result}"/>
+  </CFG:StatementNode>
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {IN!method invocation, IN!&lt;unnamed>}"/>
+  </CFG:StatementNode>
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {IN!PLUS_ASSIGN}"/>
+  </CFG:StatementNode>
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {IN!PLUS_ASSIGN}"/>
+  </CFG:StatementNode>
+  <CFG:StatementNode>
+    <child xsi:type="CFG:BranchNode" name="Sequence {}"/>
+  </CFG:StatementNode>
+</xmi:XMI>

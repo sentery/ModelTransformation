@@ -1,0 +1,74 @@
+-- @path GPH=/TestTransformation/Metamodel/extendsecore.ecore
+-- @path GAST=/TestTransformation/Metamodel/gastm.ecore
+
+module GAST2Graph;
+create OUT : GPH from IN : GAST;
+
+
+helper context GAST!Method def: isMethodRoot : Boolean =
+	self.refImmediateComposite().oclIsUndefined();
+
+helper context GAST!Method def : getAllStatement (): OrderedSet(GAST!Statement) = 
+	
+	self.allStatements->iterate(child; elements: OrderedSet(GAST!Statement) = 
+		OrderedSet{} |
+		if child.oclIsTypeOf(GAST!Statement) then
+			elements.append(child)
+		else
+			elements.append(child)
+		endif
+
+--self.children->iterate(child; elements: OrderedSet(MM!TreeElement) = 
+--		OrderedSet{} |
+--		if child.oclIsTypeOf(MM!Node) then
+--			elements.union(child.getAllChildren())
+--			
+--		else
+--			elements.append(child)
+--		endif
+);
+
+
+rule TransformMethod {
+	from
+		s : GAST!Method
+	to 
+		t : GPH!Method (
+			simpleName <- s.simpleName,
+			allStatements <- s.body
+		)
+}
+
+
+
+ rule TransformBlock {
+	from
+		s : GAST!BlockStatement
+	to 
+		t : GPH!Block (
+			blockstatement <- if s.oclIsTypeOf(GAST!BlockStatement) then
+								  s.blockstatement
+							 else false
+							 endif,
+			statement <- s.statements->select(e | e.oclIsTypeOf(GAST!SimpleStatement)).debug()
+		)
+}
+
+
+--rule TransformStatement {
+--	from
+--		s : GAST!Statement
+--	to 
+--		t : GPH!Statement (
+--			blockstatement <- if s.oclIsTypeOf(GAST!BlockStatement) then
+--								  s.blockstatement
+--							 else false
+--							 endif
+--		)
+--}
+
+
+
+
+
+
