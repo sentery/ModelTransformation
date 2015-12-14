@@ -42,7 +42,7 @@ rule TransformMethod {
 										
 										if a.oclIsTypeOf(GAST!VariableAccess) then
 										
-											a.accessedTarget.oclType().
+											a.accessedTarget.oclType()
 										else
 --											a.oclType().debug()
 											false
