@@ -35,24 +35,43 @@ rule TransformMethod {
 	to 
 		t : GPH!Method (
 			simpleName <- s.simpleName,
-			allStatements <- s.body
-		)
+			allStatements <- if s.body.oclIsTypeOf(GAST!BlockStatement) then 
+									
+								s.body.statements->asSequence()->collect(c | 
+									c.accesses.asSequence()->collect(a | 
+										
+										if a.oclIsTypeOf(GAST!VariableAccess) then
+										
+											a.accessedTarget.oclType().
+										else
+--											a.oclType().debug()
+											false
+										endif
+									
+									)
+									
+								)
+							else
+								false
+							endif
+		)							
+	
 }
 
 
 
- rule TransformBlock {
-	from
-		s : GAST!BlockStatement
-	to 
-		t : GPH!Block (
-			blockstatement <- if s.oclIsTypeOf(GAST!BlockStatement) then
-								  s.blockstatement
-							 else false
-							 endif,
-			statement <- s.statements->select(e | e.oclIsTypeOf(GAST!SimpleStatement)).debug()
-		)
-}
+-- rule TransformBlock {
+--	from
+--		s : GAST!BlockStatement
+--	to 
+--		t : GPH!Block (
+--			blockstatement <- if s.oclIsTypeOf(GAST!BlockStatement) then
+--								  s.blockstatement
+--							 else false
+--							 endif,
+--			statement <- s.statements->select(e | e.oclIsTypeOf(GAST!SimpleStatement)).debug()
+--		)
+--}
 
 
 --rule TransformStatement {
