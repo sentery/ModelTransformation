@@ -10,13 +10,37 @@ helper context GAST!Method def: isMethodRoot : Boolean =
 
 helper context GAST!Method def : getAllStatement (): OrderedSet(GAST!Statement) = 
 	
-	self.allStatements->iterate(child; elements: OrderedSet(GAST!Statement) = 
-		OrderedSet{} |
-		if child.oclIsTypeOf(GAST!Statement) then
-			elements.append(child)
+	if(self.body.oclIsUndefined()) then 
+		OrderedSet{}
+	else 
+		self.body.statements.asOrderedSet()
+	endif;
+
+helper context GAST!Method def : transfromStatementByCondition(s :GAST!Statement): OclAny =
+	if s.oclIsTypeOf(GAST!SimpleStatement) then 
+		thisModule.TransformStatement(s)
+	else
+		if s.oclIsTypeOf(GAST!JumpStatement) then 
+			thisModule.TransformJumpStatement(s)
 		else
-			elements.append(child)
-		endif
+			false
+	endif
+	endif
+	
+	;
+
+	
+	
+
+--helper context GAST!VariableAccess def : getAllStatement (): OrderedSet(GAST!Statement) = 
+--	
+--	self.allStatements->iterate(child; elements: OrderedSet(GAST!Statement) = 
+--		OrderedSet{} |
+--		if child.oclIsTypeOf(GAST!Statement) then
+--			elements.append(child)
+--		else
+--			elements.append(child)
+--		endif
 
 --self.children->iterate(child; elements: OrderedSet(MM!TreeElement) = 
 --		OrderedSet{} |
@@ -26,37 +50,61 @@ helper context GAST!Method def : getAllStatement (): OrderedSet(GAST!Statement) 
 --		else
 --			elements.append(child)
 --		endif
-);
+--);
 
 
-rule TransformMethod {
+rule name {
 	from
 		s : GAST!Method
 	to 
 		t : GPH!Method (
 			simpleName <- s.simpleName,
-			allStatements <- if s.body.oclIsTypeOf(GAST!BlockStatement) then 
-									
-								s.body.statements->asSequence()->collect(c | 
-									c.accesses.asSequence()->collect(a | 
-										
-										if a.oclIsTypeOf(GAST!VariableAccess) then
-										
-											a.accessedTarget.oclType()
-										else
---											a.oclType().debug()
-											false
-										endif
-									
-									)
-									
-								)
-							else
-								false
-							endif
-		)							
-	
+			allStatements  <-  stmt
+--			allStatements  <-  s.getAllStatement()->collect(c |
+--				
+--				if c.oclIsTypeOf(GAST!SimpleStatement) then 
+--					thisModule.TransformStatement(c)
+--					
+--				else
+--					thisModule.TransformJumpStatement(c)
+--					endif
+--			)
+		)
+		,
+		stmt : distinct GAST!Statement foreach(leaf in s.getAllStatement())(
+				
+			id <- leaf.id.debug()
+		)
+			
 }
+--rule TransformMethod {
+--	from
+--		s : GAST!Method
+--	to 
+--		t : GPH!Method (
+--			simpleName <- s.simpleName,
+--			allStatements <- if s.body.oclIsTypeOf(GAST!BlockStatement) then 
+--									
+--								s.body.statements->asSequence()->collect(c | 
+--									c.accesses.asSequence()->collect(a | 
+--										
+--										if a.oclIsTypeOf(GAST!VariableAccess) then
+--												a.oclType().debug()
+--										else
+--											a.oclType().debug()
+--										endif
+--									
+--									)
+--									
+--								)
+--							else
+--								thisModule.getAllStatement.debug()
+--							endif
+--						
+--		)
+--	
+--	
+--}
 
 
 
@@ -79,15 +127,39 @@ rule TransformMethod {
 --		s : GAST!Statement
 --	to 
 --		t : GPH!Statement (
---			blockstatement <- if s.oclIsTypeOf(GAST!BlockStatement) then
---								  s.blockstatement
---							 else false
---							 endif
+--			id <- s.id
+--			
+--		)
+--}
+
+-- lazy rule TransformJumpStatement {
+--	from
+--		s : GAST!JumpStatement
+--	to 
+--		t : GPH!JumpStatement (
+--			id <- s.id
 --		)
 --}
 
 
 
+-- rule TransfromLocalValiable {
+--	from
+--		s : GAST!LocalVariable
+--	to 
+--		t : GPH!LocalVariable (
+--			simpleName <- s.simpleName.debug()
+--		)
+--}
+--
+--  rule TransfromValiableAccess {
+--	from
+--		s : GAST!VariableAccess
+--	to 
+--		t : GPH!VariableAccess (
+--		)
+--}
+ 
 
 
 
