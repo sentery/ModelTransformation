@@ -59,22 +59,17 @@ rule name {
 	to 
 		t : GPH!Method (
 			simpleName <- s.simpleName,
-			allStatements  <-  stmt
---			allStatements  <-  s.getAllStatement()->collect(c |
---				
---				if c.oclIsTypeOf(GAST!SimpleStatement) then 
---					thisModule.TransformStatement(c)
---					
---				else
---					thisModule.TransformJumpStatement(c)
---					endif
---			)
-		)
-		,
-		stmt : distinct GAST!Statement foreach(leaf in s.getAllStatement())(
+			statements  <-   s.getAllStatement()->collect(c |
 				
-			id <- leaf.id.debug()
+				if c.oclIsTypeOf(GAST!SimpleStatement) then 
+					thisModule.TransformStatement(c)
+					
+				else
+					thisModule.TransformJumpStatement(c)
+					endif
+			)
 		)
+
 			
 }
 --rule TransformMethod {
@@ -122,24 +117,24 @@ rule name {
 --}
 
 
---rule TransformStatement {
---	from
---		s : GAST!Statement
---	to 
---		t : GPH!Statement (
---			id <- s.id
---			
---		)
---}
+ lazy rule TransformStatement {
+	from
+		s : GAST!Statement
+	to 
+		t : GPH!Statement (
+			id <- s.id
+			
+		)
+}
 
--- lazy rule TransformJumpStatement {
---	from
---		s : GAST!JumpStatement
---	to 
---		t : GPH!JumpStatement (
---			id <- s.id
---		)
---}
+lazy  rule TransformJumpStatement {
+	from
+		s : GAST!JumpStatement
+	to 
+		t : GPH!JumpStatement (
+			id <- s.id
+		)
+}
 
 
 

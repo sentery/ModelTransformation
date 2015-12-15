@@ -8,7 +8,10 @@
         eType="#//FlowInstr"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="dfNext" eType="#//FlowInstr"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Method" eSuperTypes="#//FlowInstr gastm.ecore#//functions/Method"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Method" eSuperTypes="#//FlowInstr gastm.ecore#//functions/Method">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+        eType="#//Statement" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Exit" eSuperTypes="#//FlowInstr"/>
   <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="#//FlowInstr #//Statement"/>
   <eClassifiers xsi:type="ecore:EClass" name="JumpStatement" eSuperTypes="gastm.ecore#//statements/JumpStatement #//FlowInstr"/>
