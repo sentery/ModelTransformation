@@ -8,6 +8,15 @@ create OUT : GPH from IN : GAST;
 helper context GAST!Method def: isMethodRoot : Boolean =
 	self.refImmediateComposite().oclIsUndefined();
 
+--helper context GAST!Method def : getAllStatement (): OrderedSet(GAST!Statement) = 
+--	
+--	if(self.body.oclIsUndefined()) then 
+--		OrderedSet{}
+--	else 
+--		self.body.statements.asOrderedSet()
+--	endif;
+
+
 helper context GAST!Method def : getAllStatement (): OrderedSet(GAST!Statement) = 
 	
 	if(self.body.oclIsUndefined()) then 
@@ -22,6 +31,7 @@ helper context GAST!Method def : transfromStatementByCondition(s :GAST!Statement
 	else
 		if s.oclIsTypeOf(GAST!JumpStatement) then 
 			thisModule.TransformJumpStatement(s)
+			
 		else
 			false
 	endif
@@ -53,23 +63,38 @@ helper context GAST!Method def : transfromStatementByCondition(s :GAST!Statement
 --);
 
 
-rule name {
+rule TransformMethod {
 	from
 		s : GAST!Method
 	to 
 		t : GPH!Method (
 			simpleName <- s.simpleName,
 			statements  <-   s.getAllStatement()->collect(c |
-				
 				if c.oclIsTypeOf(GAST!SimpleStatement) then 
-					thisModule.TransformStatement(c)
+					thisModule.TransformSimplaeStatement(c)
 					
 				else
-					thisModule.TransformJumpStatement(c)
+					if c.oclIsTypeOf(GAST!JumpStatement) then
+						thisModule.TransformJumpStatement(c)
+					else
+--						thisModule.TransformLoopStatement(c)
+						thisModule.TransformLoopStatement(c)
 					endif
-			)
-		)
-
+				endif
+				
+--				if c.oclIsTypeOf(GAST!SimpleStatement) then 
+--					thisModule.TransformSimplaeStatement(c)
+--				else if c.oclIsTypeOf(GAST!JumpStatement) then 
+--					thisModule.TransformJumpStatement(c)
+--				else
+--					thisModule.TransformLoopStatement(c)
+--			endif	
+		),allStatements <- if not s.getAllStatement().isEmpty() then
+								s.getAllStatement(0,0).debug()
+							else 
+								false
+							endif
+)
 			
 }
 --rule TransformMethod {
@@ -103,29 +128,41 @@ rule name {
 
 
 
--- rule TransformBlock {
+
+
+
+-- lazy rule TransformStatement {
 --	from
---		s : GAST!BlockStatement
+--		s : GAST!Statement
 --	to 
---		t : GPH!Block (
---			blockstatement <- if s.oclIsTypeOf(GAST!BlockStatement) then
---								  s.blockstatement
---							 else false
---							 endif,
---			statement <- s.statements->select(e | e.oclIsTypeOf(GAST!SimpleStatement)).debug()
+--		t : GPH!Statement (
+--			id <- s.id,
+--			
+--			
+--			
 --		)
 --}
-
-
- lazy rule TransformStatement {
+ 
+  lazy rule TransformSimplaeStatement {
 	from
-		s : GAST!Statement
+		s : GAST!SimpleStatement
 	to 
-		t : GPH!Statement (
-			id <- s.id
+		t : GPH!SimpleStatement (
+			id <- s.id,
+			accesses <- s.accesses->collect(c |
+				
+			if c.oclIsTypeOf(GAST!VariableAccess) then 
+				thisModule.TransfromValiableAccess(c)
+			else
+				thisModule.TransfromSelfAccess(c)
+			endif
+			)
+			
+			
 			
 		)
 }
+ 
 
 lazy  rule TransformJumpStatement {
 	from
@@ -136,25 +173,111 @@ lazy  rule TransformJumpStatement {
 		)
 }
 
+lazy rule TransformLoopStatement {
+	from
+		s : GAST!LoopStatement
+	to 
+		t : GPH!LoopStatement(
+			statements <- s.body.statements->asSequence()->collect(c | 
+				
+				if c.oclIsTypeOf(GAST!SimpleStatement) then 
+					thisModule.TransformSimplaeStatement(c)
+					
+				else
+					if c.oclIsTypeOf(GAST!JumpStatement) then
+						thisModule.TransformJumpStatement(c)
+					else
+						thisModule.TransformBranchStatement(c)
+					endif
+				endif
+				
+			
+			
+			)
+			)
+ }
 
 
--- rule TransfromLocalValiable {
+lazy  rule TransformBranchStatement {
+	from
+		s : GAST!BranchStatement
+	to 
+		t : GPH!If (
+			thens <- s.branches->collect(c | 
+				
+			if c.statement.oclIsTypeOf(GAST!SimpleStatement) then 
+					thisModule.TransformSimplaeStatement(c.statement)
+					
+				else
+					if c.statement.oclIsTypeOf(GAST!JumpStatement) then
+						thisModule.TransformJumpStatement(c.statement)
+					else
+						thisModule.TransformSimplaeStatement(c.statement)
+--						thisModule.TransformBranchStatement(c.statement)
+					endif
+				endif
+			)
+			
+			
+			
+			,
+			elses <- if not s.branch.oclIsUndefined() then
+						s.branch.oclType().debug()
+					else
+						OrderedSet{}
+					endif
+		)
+}
+
+--rule TransfromBlockStatement {
 --	from
---		s : GAST!LocalVariable
+--		s : GAST!BlockStatement
 --	to 
---		t : GPH!LocalVariable (
---			simpleName <- s.simpleName.debug()
+--		t : GPH!Block (
+--			statement <- s.statements->collect(c | 
+--			
+--			if c.oclIsTypeOf(GAST!SimpleStatement) then 
+--					thisModule.TransformStatement(c)
+--					
+--				else
+--					if c.oclIsTypeOf(GAST!JumpStatement) then
+--						thisModule.TransformJumpStatement(c)
+--					else
+----						thisModule.TransformLoopStatement(c)
+--OrderedSet{}
+--					endif
+--				endif
+--			
+--		)
 --		)
 --}
---
---  rule TransfromValiableAccess {
---	from
---		s : GAST!VariableAccess
---	to 
---		t : GPH!VariableAccess (
---		)
---}
+
+
+ lazy rule TransfromValiableAccess {
+	from
+		s : GAST!VariableAccess
+	to 
+		t : GPH!VariableAccess (
+		
+--			id <- s.accessedTarget.oclType().debug()
+		)
+}
  
+ lazy rule TransfromSelfAccess {
+	from
+		s : GAST!SelfAccess
+	to 
+		t : GPH!SelfAccess (
+			
+		)
+}
 
 
-
+ lazy rule TransfromLocalValiable {
+	from
+		s : GAST!LocalVariable
+	to 
+		t : GPH!LocalVariable (
+			simpleName <- s.simpleName.debug()
+		)
+}
