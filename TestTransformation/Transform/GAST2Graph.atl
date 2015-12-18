@@ -8,21 +8,63 @@ create OUT : GPH from IN : GAST;
 helper context GAST!Method def: isMethodRoot : Boolean =
 	self.refImmediateComposite().oclIsUndefined();
 
---helper context GAST!Method def : getAllStatement (): OrderedSet(GAST!Statement) = 
+helper def: getCFnext(s: GAST!Statement,arr:Sequence(GAST!Statement)): GAST!Statement =
+
+	let rs : GAST!Statement = s in
+			if arr.size() > 0 then 
+				if arr.size() > 1 and arr.indexOf(rs) < arr.size() then 
+				
+					
+					 arr.at(arr.indexOf(rs)+1).debug()
+				else
+					Sequence{}
+				endif
+				 
+			 else
+			 	Sequence{}
+			 endif
+			
+;
+
+
+--helper context GAST!Method def : getAllStatement (): Sequence(GAST!Statement) = 
 --	
 --	if(self.body.oclIsUndefined()) then 
---		OrderedSet{}
+--		Sequence{}
 --	else 
---		self.body.statements.asOrderedSet()
+--		self.body.statements
 --	endif;
-
-
-helper context GAST!Method def : getAllStatement (): OrderedSet(GAST!Statement) = 
+helper context GAST!Method def : getAllStatement (): Sequence(GAST!Statement) = 
 	
 	if(self.body.oclIsUndefined()) then 
-		OrderedSet{}
+		Sequence{}
 	else 
-		self.body.statements.asOrderedSet()
+		let arrStm :  Sequence(GAST!Statement) = self.body.statements
+		in
+			if arrStm.isEmpty() then 
+				Sequence{}
+			else 
+				arrStm->collect(c | c.cfNext = thisModule.getCFnext(c, self.body.statements))->
+				iterate(e; ret: Sequence(GAST!Statement) = Sequence{} | 
+				
+					if e.oclIsKindOf(GAST!SimpleStatement) then
+					ret -> including(e)
+				else
+					if e.oclIsKindOf(GAST!LoopStatement) then
+--						if e.kind = #pk_initial then
+--							ret -> including(e)
+--						else
+--							ret -> including(e.getPredecessors())
+--						endif
+						ret -> including(e)
+					else
+						ret
+					endif
+				endif
+				
+				)
+			endif
+--		->collect(c |  arrSrm -> including(c.cfNext(thisModule.getCFnext(c, self.body.statements))))
 	endif;
 
 helper context GAST!Method def : transfromStatementByCondition(s :GAST!Statement): OclAny =
@@ -66,8 +108,11 @@ helper context GAST!Method def : transfromStatementByCondition(s :GAST!Statement
 rule TransformMethod {
 	from
 		s : GAST!Method
+		
+	
 	to 
 		t : GPH!Method (
+--			statements  <-   s.id,
 			simpleName <- s.simpleName,
 			statements  <-   s.getAllStatement()->collect(c |
 				if c.oclIsTypeOf(GAST!SimpleStatement) then 
@@ -89,13 +134,10 @@ rule TransformMethod {
 --				else
 --					thisModule.TransformLoopStatement(c)
 --			endif	
-		),allStatements <- if not s.getAllStatement().isEmpty() then
-								s.getAllStatement(0,0).debug()
-							else 
-								false
-							endif
-)
-			
+		)
+		
+)	
+
 }
 --rule TransformMethod {
 --	from
@@ -157,7 +199,7 @@ rule TransformMethod {
 				thisModule.TransfromSelfAccess(c)
 			endif
 			)
-			
+			, cfNext <- s.cfNext.debug()
 			
 			
 		)
@@ -224,7 +266,7 @@ lazy  rule TransformBranchStatement {
 			elses <- if not s.branch.oclIsUndefined() then
 						s.branch.oclType().debug()
 					else
-						OrderedSet{}
+						Sequence {}
 					endif
 		)
 }
