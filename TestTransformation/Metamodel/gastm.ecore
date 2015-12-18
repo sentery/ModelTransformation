@@ -92,6 +92,10 @@
           eType="#//statements/Branch" eOpposite="#//statements/Branch/statement"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="loopstatement" ordered="false"
           eType="#//statements/LoopStatement" eOpposite="#//statements/LoopStatement/body"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cfPre" upperBound="-1"
+          eType="#//statements/Statement"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cfNext" upperBound="-1"
+          eType="#//statements/Statement"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="BlockStatement" eSuperTypes="#//statements/Statement">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
