@@ -14,18 +14,18 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Exit" eSuperTypes="#//FlowInstr"/>
   <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="#//FlowInstr #//Statement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="JumpStatement" eSuperTypes="gastm.ecore#//statements/JumpStatement #//Statement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JumpStatement" eSuperTypes="gastm.ecore#//statements/JumpStatement #//Statement #//FlowInstr"/>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleStatement" eSuperTypes="#//Statement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Expr" eSuperTypes="gastm.ecore#//statements/GASTExpression #//FlowInstr"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Block" eSuperTypes="#//Statement">
+  <eClassifiers xsi:type="ecore:EClass" name="Block" eSuperTypes="gastm.ecore#//statements/BlockStatement #//Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="statement" upperBound="-1"
         eType="ecore:EClass gastm.ecore#//statements/Statement" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Statement" eSuperTypes="gastm.ecore#//statements/Statement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="cfPre" upperBound="-1"
-        eType="#//Statement"/>
+        eType="#//Statement" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="cfNext" upperBound="-1"
-        eType="#//Statement"/>
+        eType="#//Statement" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LoopStatement" eSuperTypes="#//Statement gastm.ecore#//statements/LoopStatement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="statements" lowerBound="1"
