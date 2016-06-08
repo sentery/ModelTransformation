@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:statements="http://www.fzi.de/gast/statements">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:statements="http://www.fzi.de/gast/statements">
   <statements:Methods methodName="hasMoreElements"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
   <statements:Methods methodName="nextElement"/>
@@ -12,20 +12,89 @@
   <statements:Exit name="IN!&lt;unnamed>"/>
   <statements:Methods methodName="valueOf"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="getDaysRented"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="getMovie"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="getPriceCode"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="setPriceCode"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="getTitle"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="addRental"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="getName"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
-  <statements:Methods methodName="statement"/>
   <statements:Exit name="IN!&lt;unnamed>"/>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="getDaysRented"/>
+    <statements xsi:type="statements:JumpStatement" kind="RETURN"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="getMovie"/>
+    <statements xsi:type="statements:JumpStatement" kind="RETURN"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="getPriceCode"/>
+    <statements xsi:type="statements:JumpStatement" kind="RETURN"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="setPriceCode"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="getTitle"/>
+    <statements xsi:type="statements:JumpStatement" kind="RETURN"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="addRental"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="getName"/>
+    <statements xsi:type="statements:JumpStatement" kind="RETURN"/>
+  </statements:BlockStatement>
+  <statements:BlockStatement>
+    <statements xsi:type="statements:Methods" methodName="statement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:SimpleStatement"/>
+    <statements xsi:type="statements:LoopStatement" kind="WHILE">
+      <body xsi:type="statements:BlockStatement">
+        <statements xsi:type="statements:SimpleStatement"/>
+        <statements xsi:type="statements:SimpleStatement"/>
+        <statements xsi:type="statements:SimpleStatement"/>
+        <statements xsi:type="statements:SimpleStatement"/>
+        <statements xsi:type="statements:BranchStatement">
+          <branches>
+            <statement xsi:type="statements:SimpleStatement"/>
+          </branches>
+          <branches>
+            <statement xsi:type="statements:SimpleStatement"/>
+          </branches>
+        </statements>
+      </body>
+    </statements>
+    <statements xsi:type="statements:JumpStatement" kind="RETURN"/>
+  </statements:BlockStatement>
 </xmi:XMI>

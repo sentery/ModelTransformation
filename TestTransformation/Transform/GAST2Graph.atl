@@ -1,45 +1,201 @@
 -- @path GPH=/TestTransformation/Metamodel/graph.ecore
 -- @path GAST=/TestTransformation/Metamodel/gastm.ecore
 
-module GAST2Graph;
-create OUT : GPH from IN : GAST;
 
+module GAST2Graph;
+create OUT: GPH from IN: GAST;
 
 rule Method2Method {
 	from
-		s : GAST!Method
-	to 
-		t : GPH!Methods(
+		s: GAST!Method
+	to
+		t: GPH!Methods (
 			methodName <- s.simpleName,
 			blockstatement <- s.body
-
 		),
-		t2 :GPH!Exit(
-		name <- s.returnTypeDeclaration.toString()	
-		)
-		
---		,
+		t2: GPH!Exit (
+			name <- s.returnTypeDeclaration.toString()
+		) --		,
 --		t3 : GPH!BlockStatement(
 --			blockstatement <- s.body
 --		)
+	
 }
+
 --
---rule Statement2Statement {
---	from
---		s : GAST!SimpleStatement
---	to 
---		t : GPH!SimpleStatement (
---			surroundingStatement <- s.surroundingStatement
---		)
---}
---
---
-lazy rule Block2Block {
+rule Statement2Statement {
 	from
-		s : GAST!BlockStatement
-	to 
-		t : GPH!BlockStatement (
-		blockstatement <- s.blockstatement	
+		s: GAST!SimpleStatement
+	to
+		t: GPH!SimpleStatement (
+			accesses <- s.accesses,
+			expression <- s.expression,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			cloneInstance <- s.cloneInstance,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			position <- s.position,
+			surroundingStatement <- s.surroundingStatement,
+			status <- s.status
+			
 		)
 }
 
+rule Block2Block {
+	from
+		s: GAST!BlockStatement
+	to
+		t: GPH!BlockStatement (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			cloneInstance <- s.cloneInstance,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			position <- s.position,
+			surroundingStatement <- s.surroundingStatement,
+			status <- s.status,
+			statements <- s.statements
+		)
+}
+
+rule Expr2Expr {
+	from
+		s: GAST!GASTExpression
+	to
+		t: GPH!GASTExpression (
+			annotations <- s.annotations,
+			position <- s.position,
+			status <- s.status
+		)
+}
+
+rule Jump2Jump {
+	from
+		s: GAST!JumpStatement
+	to
+		t: GPH!JumpStatement (
+			kind <- s.kind,
+			accesses <- s.accesses,
+			expression <- s.expression,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			cloneInstance <- s.cloneInstance,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			position <- s.position,
+			surroundingStatement <- s.surroundingStatement,
+			status <- s.status
+			
+			
+		)
+}
+
+rule Loop2Loop {
+	from
+		s: GAST!LoopStatement
+	to
+		t: GPH!LoopStatement (
+			kind <- s.kind,
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			cloneInstance <- s.cloneInstance,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			position <- s.position,
+			surroundingStatement <- s.surroundingStatement,
+			status <- s.status,
+			incrementExpression <- s.incrementExpression,
+			initExpression <- s.initExpression
+			
+		)
+}
+
+rule BranchStm2BranchStm {
+	from
+		s: GAST!BranchStatement
+	to
+		t: GPH!BranchStatement (
+			branch <- s.branch,
+			branches <- s.branches,
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			cloneInstance <- s.cloneInstance,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			position <- s.position,
+			surroundingStatement <- s.surroundingStatement,
+			status <- s.status
+			
+		)
+}
+
+rule Branch2Branch {
+	from
+		s : GAST!Branch
+	to 
+		t : GPH!Branch (
+			annotations <- s.annotations,
+			branchstatement <- s.branchstatement,
+			conditionExpression <- s.conditionExpression,
+			position <- s.position,
+			statement <- s.statement,
+			status <- s.status
+		)
+}
+
+rule CatchBlock2CatchBlock {
+	from
+		s : GAST!CatchBlock
+	to 
+		t : GPH!CatchBlock (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			catchParameter <- s.catchParameter,
+			cloneInstance <- s.cloneInstance,
+			position <- s.position,
+			statements <- s.statements,
+			status <- s.status,
+			surroundingFunction <- s.surroundingFunction,
+			surroundingStatement <- s.surroundingStatement,
+			synchronized <- s.synchronized
+		)
+}
+
+rule Exception2Exception {
+	from
+		s : GAST!ExceptionHandler
+	to 
+		t : GPH!ExceptionHandler (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			catchBlocks <- s.catchBlocks,
+			cloneInstance <- s.cloneInstance,
+			finallyBlock <- s.finallyBlock,
+			guardedBlock <- s.guardedBlock,
+			position <- s.position,
+			status <- s.status,
+			surroundingStatement <- s.surroundingStatement
+			
+		)
+}
+
+rule Behavi2Behavi {
+	from
+		s : GAST!GASTBehaviour
+	to 
+		t : GPH!GASTBehaviour (
+			blockstatement <- s.blockstatement
+		)
+}
