@@ -286,6 +286,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="exit" eType="#//statements/Exit"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="vars" upperBound="-1"
+          eType="#//statements/Var" eOpposite="#//statements/Var/method"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Exit" eSuperTypes="#//statements/FlowInstr">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -293,16 +295,24 @@
     <eClassifiers xsi:type="ecore:EClass" name="FlowInstr">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="txt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="use" upperBound="-1"
-          eType="#//statements/Var"/>
+          eType="#//statements/Var" eOpposite="#//statements/Var/users"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="def" upperBound="-1"
-          eType="#//statements/Var"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="cfnext" upperBound="-1"
+          eType="#//statements/Var" eOpposite="#//statements/Var/definers"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cfNext" upperBound="-1"
           eType="#//statements/FlowInstr" eOpposite="#//statements/FlowInstr/cfPrev"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="cfPrev" upperBound="-1"
-          eType="#//statements/FlowInstr" eOpposite="#//statements/FlowInstr/cfnext"/>
+          eType="#//statements/FlowInstr" eOpposite="#//statements/FlowInstr/cfNext"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dfNext" upperBound="-1"
+          eType="#//statements/FlowInstr"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Var">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="definers" upperBound="-1"
+          eType="#//statements/FlowInstr" eOpposite="#//statements/FlowInstr/def"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
+          eType="#//statements/FlowInstr" eOpposite="#//statements/FlowInstr/use"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="#//statements/Methods"
+          eOpposite="#//statements/Methods/vars"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Param" eSuperTypes="#//statements/Var"/>
   </eSubpackages>
