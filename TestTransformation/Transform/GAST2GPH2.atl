@@ -1,0 +1,44 @@
+-- @path GPH=/TestTransformation/Metamodel/FlowGraph.ecore
+-- @path GAST=/TestTransformation/Metamodel/gastm.ecore
+
+module GAST2GPH2;
+create OUT : GPH from IN : GAST;
+
+helper def : allSimpleStatement : Sequence(GAST!SimpleStatement) =  GAST!SimpleStatement.allInstances();
+helper context GAST!LocalVariable def: getText : String = 
+	self.typeDeclaration.accessedTarget.simpleName +' '+ self.simpleName ;
+
+helper context GAST!GASTExpression def: getText : String = 
+	self.toString();
+
+helper context GAST!SimpleStatement def: getText : String = 
+--	self.accesses->select(e | e.oclIsTypeOf(GAST!VariableAccess))->collect(c | c.accessedTarget).flatten().first().typeDeclaration.accessedTarget.simpleName +'  '+
+--	self.accesses->select(e | e.oclIsTypeOf(GAST!VariableAccess))->collect(c | c.accessedTarget).flatten().first().simpleName;
+
+--self.accesses->collect(c | c.accessedTarget)->iterate(n ; i: Integer = self.accesses.size() | 
+--n.typeDeclaration.accessedTarget.simpleName +' '+ n.simpleName );
+
+	self.accesses->collect(c | c.accessedTarget)->
+	iterate(n ; i: Integer = self.accesses.size() | if self.accesses.size() <= 1 then 
+			n.typeDeclaration.accessedTarget.simpleName +' '+ n.simpleName 
+		else 
+			n.surroundingFunction.localVariables->
+			
+			iterate(m; j: Integer = n.surroundingFunction.localVariables.size() | m.simpleName
+	
+)
+		endif	
+);
+	
+
+
+
+rule SimStm2SimStm {
+	from
+		s : GAST!SimpleStatement
+	to 
+		t : GPH!SimpleStmt (
+		--	txt <- s.
+		)
+		
+}

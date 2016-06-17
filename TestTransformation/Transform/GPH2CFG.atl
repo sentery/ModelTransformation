@@ -1,0 +1,49 @@
+-- @path GPH=/TestTransformation/Metamodel/graph.ecore
+-- @path CFG=/TestTransformation/Metamodel/CFG.ecore
+
+module GPH2CFG;
+create OUT : CFG from IN : GPH;
+
+--helper context GPH!FlowInstr def:computeNextDataFlow(): Sequence(GPH!FlowInstr) =
+--	self.def->collect(d | self.use(d)->reject(fi | if fi = self then not fi.isInALoop else false endif )
+--		-> select(fi | thisModule.isDefinedBy(fi, Sequence{fi}, self, Sequence{}, self.def(d)->excluding(self))))->flatten();
+--
+--
+--
+--helper def : isDefinedBy(start :GPH!FlowInstr, input : Sequence(GPH!FlowInstr), end : GPH!FlowInstr,
+--	visited : Sequence(GPH!FlowInstr),fobidden : Sequence(GPH!FlowInstr)) : Boolean = 
+--		
+--		if input ->exists(i | i = end) then true
+--		else let newInput : Sequence(GPH!FlowInstr) = input -> collect(i | i.cfPrev)->flatten()
+--		->reject(i | visited -> exists(f | f = i)) in
+--		if newInput->isEmpty() then false
+--		else thisModule.isDefinedBy(start,newInput,end,visited->union(newInput)->asSet()->asSequence(),fobidden)
+--		endif
+--	endif;
+--		
+
+--helper def : allFlowInstr() : Sequence(GPH!FlowInstr) = GPH!FlowInstr.allInstances();
+
+helper context GPH!FlowInstr def:getNextControlFlow : Sequence(GPH!FlowInstr) = 
+	self.cfnext;
+	
+--rule Method2Method {
+--	from
+--		s : GPH!Methods
+--	to 
+--		t : CFG!Methods (
+--		
+--		)
+--}
+
+
+rule SimpleStmt {
+	from
+		s : GPH!SimpleStatement
+	to 
+		t : CFG!SimpleStatement (
+			txt <- s.txt,
+			cfNext <- s.cfNext
+		)
+}
+
