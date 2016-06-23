@@ -14,31 +14,100 @@ helper context GAST!GASTExpression def: getText : String =
 helper context GAST!SimpleStatement def: getText : String = 
 --	self.accesses->select(e | e.oclIsTypeOf(GAST!VariableAccess))->collect(c | c.accessedTarget).flatten().first().typeDeclaration.accessedTarget.simpleName +'  '+
 --	self.accesses->select(e | e.oclIsTypeOf(GAST!VariableAccess))->collect(c | c.accessedTarget).flatten().first().simpleName;
-
---self.accesses->collect(c | c.accessedTarget)->iterate(n ; i: Integer = self.accesses.size() | 
---n.typeDeclaration.accessedTarget.simpleName +' '+ n.simpleName );
-
-	self.accesses->collect(c | c.accessedTarget)->
-	iterate(n ; i: Integer = self.accesses.size() | if self.accesses.size() <= 1 then 
-			n.typeDeclaration.accessedTarget.simpleName +' '+ n.simpleName 
-		else 
-			n.surroundingFunction.localVariables->
-			
-			iterate(m; j: Integer = n.surroundingFunction.localVariables.size() | m.simpleName
+	if self.accesses.size() > 1 then
+	self.accesses->iterate(e; res: String = '' | 
+	res+' '+e.accessedTarget.simpleName
+--	if not e.accessedTarget.typeDeclaration.oclIsUndefined() then 
+--		
+--		res+' '+e.accessedTarget.typeDeclaration.accessedTarget.simpleName +' '+e.accessedTarget.simpleName
+--	else 
+--		res+' '+e.accessedTarget.simpleName
+--		endif
+	)
+		
+	else 
+		
+	self.accesses->collect(c | c.accessedTarget)->iterate(n ; i: Integer = self.accesses.size() | 
+		n.typeDeclaration.accessedTarget.simpleName +' '+ n.simpleName )
 	
-)
-		endif	
-);
+	endif;
+
+
+--	self.accesses->collect(c | c.accessedTarget)->
+--	iterate(n ; i: Integer = self.accesses.size() | if self.accesses.size() <= 1 then 
+--			n.typeDeclaration.accessedTarget.simpleName +' '+ n.simpleName 
+--		else 
+--			n.simpleName 
+--			--n.surroundingFunction.localVariables->
+--			--iterate(m; j: Integer = n.surroundingFunction.localVariables.size() | n.simpleName
+----)
+--		endif	
+--);
 	
 
 
+rule Method2Method {
+	from
+		s : GAST!Method
+	to 
+		t : GPH!Method (
+			stmts <- s.body.statements,
+			exit <- exit
+		),
+		
+		exit :GPH!Exit(
+			txt <- 'Exit'	
+		)
+}
 
-rule SimStm2SimStm {
+ rule Block2Block {
+	from
+		s : GAST!BlockStatement(not s.blockstatement.oclIsUndefined())
+	to 
+		t : GPH!Block (
+		stmts <- s.blockstatement.statements
+		)
+}
+
+rule Loop2Loop {
+	from
+		s : GAST!LoopStatement
+	to 
+		t : GPH!Loop (
+			txt <-  s.kind.toString()+' '+  s.accesses->iterate(e; res: String = '' | 
+	res+' '+e.accessedTarget.simpleName),
+	body <- s.blockstatement
+		)
+}
+ rule SimStm2SimStm {
 	from
 		s : GAST!SimpleStatement
 	to 
 		t : GPH!SimpleStmt (
-		--	txt <- s.
+			txt <- s.getText
 		)
 		
 }
+ rule Jump2Return {
+	from
+		s : GAST!JumpStatement
+	to 
+		t : GPH!Return (
+			txt <- s.kind.toString()+' '+  s.accesses->iterate(e; res: String = '' | 
+	res+' '+e.accessedTarget.simpleName)
+		)
+}
+ 
+-- rule Branch2If {
+--	from
+--		s : GAST!BranchStatement
+--	to 
+--		t : GPH!If (
+--			txt <-  s.accesses->iterate(e; res: String = '' | 
+--	res+' '+e.accessedTarget.simpleName),
+--	then <- s.branches,
+--	else <- s.branches,
+--	
+--	
+--		)
+--}
