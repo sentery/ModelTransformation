@@ -1,0 +1,232 @@
+-- @path CFG=/TestTransformation/Metamodel/gastm2.ecore
+-- @path GAST=/TestTransformation/Metamodel/gastm.ecore
+
+module GAST2CFG;
+create OUT : CFG from IN : GAST;
+
+
+
+
+
+
+rule Method2StartNode {
+	from
+		s : GAST!Method(not s.body.oclIsUndefined())
+	to 
+		t : CFG!StartNode (
+			
+			name <- s.simpleName,
+			statements <- s.body,
+			
+			exit <- exit
+		),
+		exit : CFG!EndNode(
+			name <- 'Exit'
+			)
+}
+
+rule Simple2Simple {
+	from
+		s : GAST!SimpleStatement
+	to 
+		t : CFG!SimpleStatement (
+			id <- s.id,
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			cloneInstance <- s.cloneInstance,
+			expression <- s.expression,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			maximumNestingLevel <- s.maximumNestingLevel,
+			numberOfComments <- s.numberOfComments,
+			numberOfEdgesInCFG <- s.numberOfEdgesInCFG,
+			numberOfNodesInCFG <- s.numberOfNodesInCFG,
+			numberOfStatements <- s.numberOfStatements,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			status <- s.status,
+			surroundingStatement <- s.surroundingStatement
+			
+		)
+}
+
+rule Block2Block {
+	from
+		s : GAST!BlockStatement
+	to 
+		t : CFG!BlockStatement (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			cloneInstance <- s.cloneInstance,
+			id <- s.id,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			maximumNestingLevel <- s.maximumNestingLevel,
+			numberOfComments <- s.numberOfComments,
+			numberOfEdgesInCFG <- s.numberOfEdgesInCFG,
+			numberOfNodesInCFG <- s.numberOfNodesInCFG,
+			numberOfStatements <- s.numberOfStatements,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			status <- s.status,
+			surroundingStatement <- s.surroundingStatement,
+			synchronized <- s.synchronized
+		)
+}
+
+rule Branch2Branch {
+	from
+		s : GAST!Branch
+	to 
+		t : CFG!Branch (
+			annotations <- s.annotations,
+			branchstatement <- s.branchstatement,
+			conditionExpression <- s.conditionExpression,
+			id <- s.id,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			statement <- s.statement,
+			status <- s.status
+		)
+}
+
+rule BrancStatement2Branchstatement {
+	from
+		s : GAST!BranchStatement
+	to 
+		t : CFG!BranchStatement (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			branches <- s.branches,
+			cloneInstance <- s.cloneInstance,
+			id <- s.id,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			maximumNestingLevel <- s.maximumNestingLevel,
+			numberOfComments <- s.numberOfComments,
+			numberOfEdgesInCFG <- s.numberOfEdgesInCFG,
+			numberOfNodesInCFG <- s.numberOfNodesInCFG,
+			numberOfStatements <- s.numberOfStatements,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			status <- s.status,
+			surroundingStatement <- s.surroundingStatement
+		)
+}
+
+rule GASTEx2GASTEx {
+	from
+		s : GAST!GASTExpression
+	to 
+		t : CFG!GASTExpression (
+			annotations <- s.annotations,
+			id <- s.id,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			status <- s.status
+		)
+}
+
+rule Loop2Loop {
+	from
+		s : GAST!LoopStatement
+	to 
+		t : CFG!LoopStatement (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			body <- s.body,
+			branch <- s.branch,
+			breakConditionExpression <- s.breakConditionExpression,
+			cloneInstance <- s.cloneInstance,
+			id <- s.id,
+			incrementExpression <- s.incrementExpression,
+			initExpression <- s.initExpression,
+			kind <- s.kind,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			maximumNestingLevel <- s.maximumNestingLevel,
+			numberOfComments <- s.numberOfComments,
+			numberOfEdgesInCFG <- s.numberOfEdgesInCFG,
+			numberOfNodesInCFG <- s.numberOfNodesInCFG,
+			numberOfStatements <- s.numberOfStatements,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			status <- s.status,
+			surroundingStatement <- s.surroundingStatement
+			
+		)
+}
+
+rule CatchBlock2CatchBlock {
+	from
+		s : GAST!CatchBlock
+	to 
+		t : CFG!CatchBlock (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			catchParameter <- s.catchParameter,
+			cloneInstance <- s.cloneInstance,
+			id <- s.id,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			maximumNestingLevel <- s.maximumNestingLevel,
+			numberOfComments <- s.numberOfComments,
+			numberOfEdgesInCFG <- s.numberOfEdgesInCFG,
+			numberOfNodesInCFG <- s.numberOfNodesInCFG,
+			numberOfStatements <- s.numberOfStatements,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			statements <- s.statements,
+			status <- s.status,
+			surroundingFunction <- s.surroundingFunction,
+			surroundingStatement <- s.surroundingStatement,
+			synchronized <- s.synchronized
+			
+		)
+}
+
+rule Jump2Jump {
+	from
+		s : GAST!JumpStatement
+	to 
+		t : CFG!JumpStatement (
+			accesses <- s.accesses,
+			annotations <- s.annotations,
+			blockstatement <- s.blockstatement,
+			branch <- s.branch,
+			cloneInstance <- s.cloneInstance,
+			expression <- s.expression,
+			id <- s.id,
+			kind <- s.kind,
+			linesOfCode <- s.linesOfCode,
+			loopstatement <- s.loopstatement,
+			maximumNestingLevel <- s.maximumNestingLevel,
+			numberOfComments <- s.numberOfComments,
+			numberOfEdgesInCFG <- s.numberOfEdgesInCFG,
+			numberOfNodesInCFG <- s.numberOfNodesInCFG,
+			numberOfStatements <- s.numberOfStatements,
+			position <- s.position,
+			sissyId <- s.sissyId,
+			status <- s.status,
+			surroundingStatement <- s.surroundingStatement
+			
+		)
+}
+
+rule GASTBev2GASTBev {
+	from
+		s : GAST!GASTBehaviour
+	to 
+		t : CFG!GASTBehaviour (
+			blockstatement <- s.blockstatement.debug()
+		)
+}

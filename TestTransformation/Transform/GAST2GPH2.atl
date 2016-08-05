@@ -51,21 +51,31 @@ rule Method2Method {
 		s : GAST!Method
 	to 
 		t : GPH!Method (
-			stmts <- s.body.statements,
+			stmts <- s.body,
 			exit <- exit
 		),
 		
 		exit :GPH!Exit(
 			txt <- 'Exit'	
 		)
+		
+--		,
+--		
+--		block : GPH!Block(
+--			stmts <- s.body.statements	
+--		)
+		
+		
 }
 
  rule Block2Block {
 	from
-		s : GAST!BlockStatement(not s.blockstatement.oclIsUndefined())
+		s : GAST!BlockStatement
 	to 
 		t : GPH!Block (
-		stmts <- s.blockstatement.statements
+		stmts <- s.statements
+		
+		
 		)
 }
 
@@ -75,8 +85,8 @@ rule Loop2Loop {
 	to 
 		t : GPH!Loop (
 			txt <-  s.kind.toString()+' '+  s.accesses->iterate(e; res: String = '' | 
-	res+' '+e.accessedTarget.simpleName),
-	body <- s.blockstatement
+			res+' '+e.accessedTarget.simpleName),
+			body <- s.body
 		)
 }
  rule SimStm2SimStm {
@@ -98,16 +108,18 @@ rule Loop2Loop {
 		)
 }
  
--- rule Branch2If {
---	from
---		s : GAST!BranchStatement
---	to 
---		t : GPH!If (
---			txt <-  s.accesses->iterate(e; res: String = '' | 
---	res+' '+e.accessedTarget.simpleName),
---	then <- s.branches,
---	else <- s.branches,
+ rule Branch2If {
+	from
+		s : GAST!BranchStatement
+	to 
+		t : GPH!If (
+			txt <-  s.accesses->iterate(e; res: String = '' | 
+	res+' '+e.accessedTarget.simpleName),
+	then <- s.branch.statement
+--	else <- s.branches
+--	,
+--	else <- s.branches
 --	
---	
---		)
---}
+	
+		)
+}

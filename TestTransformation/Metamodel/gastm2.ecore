@@ -135,7 +135,7 @@
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="GASTExpression" abstract="true" eSuperTypes="#//core/SourceEntity">
+    <eClassifiers xsi:type="ecore:EClass" name="GASTExpression" abstract="true" eSuperTypes="#//core/SourceEntity #//statements/FlowInstr">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="This class is the root class of the expression hierarchy."/>
       </eAnnotations>
@@ -219,7 +219,7 @@
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="JumpStatement" eSuperTypes="#//statements/Statement">
+    <eClassifiers xsi:type="ecore:EClass" name="JumpStatement" eSuperTypes="#//statements/Statement #//statements/FlowInstr">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="This class models all kinds of non-conditional jumps. Throwing of exceptions and return-statements are also categorized as non-conditional jumps. "/>
       </eAnnotations>
@@ -256,7 +256,7 @@
         </eAnnotations>
       </eLiterals>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="SimpleStatement" eSuperTypes="#//statements/Statement">
+    <eClassifiers xsi:type="ecore:EClass" name="SimpleStatement" eSuperTypes="#//statements/Statement #//statements/FlowInstr">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="The SimpleStatement class represents a statement, whose control-flow is a linear sequence, for example variable assignments.&#xD;&#xA;"/>
       </eAnnotations>
@@ -277,6 +277,22 @@
           <details key="documentation" value="This property represents the blockstatement. The control-flow of the behaviour is modelled via the statement structure."/>
         </eAnnotations>
       </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FlowInstr">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cfPrev" upperBound="-1"
+          eType="#//statements/FlowInstr" eOpposite="#//statements/FlowInstr/cfNext"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cfNext" upperBound="-1"
+          eType="#//statements/FlowInstr" eOpposite="#//statements/FlowInstr/cfPrev"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StartNode" eSuperTypes="#//statements/FlowInstr #//statements/BlockStatement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="statements" upperBound="-1"
+          eType="#//statements/Statement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="exit" eType="#//statements/EndNode"
+          containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EndNode" eSuperTypes="#//statements/FlowInstr">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="core" nsURI="http://www.fzi.de/gast/core" nsPrefix="core">
@@ -1943,26 +1959,5 @@
         </eAnnotations>
       </eStructuralFeatures>
     </eClassifiers>
-  </eSubpackages>
-  <eSubpackages name="cfg" nsURI="www.cfg.com" nsPrefix="cfg">
-    <eClassifiers xsi:type="ecore:EClass" name="FlowInstr" eSuperTypes="#//core/SourceEntity">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="cfNext" upperBound="-1"
-          eType="#//cfg/FlowInstr"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="cfPrev" upperBound="-1"
-          eType="#//cfg/FlowInstr"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="defs"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="uses"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="dfNext" eType="#//cfg/FlowInstr"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Methods" eSuperTypes="#//cfg/FlowInstr #//functions/Method">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="exit" eType="#//cfg/Exit"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Exit" eSuperTypes="#//cfg/FlowInstr"/>
-    <eClassifiers xsi:type="ecore:EClass" name="Return" eSuperTypes="#//cfg/FlowInstr #//statements/Statement"/>
-    <eClassifiers xsi:type="ecore:EClass" name="JumpStatement" eSuperTypes="#//statements/JumpStatement #//cfg/FlowInstr">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="body"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="SimpleStatement" eSuperTypes="#//statements/SimpleStatement #//cfg/FlowInstr"/>
-    <eClassifiers xsi:type="ecore:EClass" name="Expr" eSuperTypes="#//statements/GASTExpression #//cfg/FlowInstr"/>
   </eSubpackages>
 </ecore:EPackage>
