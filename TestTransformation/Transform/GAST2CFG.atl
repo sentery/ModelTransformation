@@ -1,12 +1,78 @@
--- @path CFG=/TestTransformation/Metamodel/gastm2.ecore
--- @path GAST=/TestTransformation/Metamodel/gastm.ecore
+-- @path CFG=/AnalysisCode/Metamodel/gastm2.ecore
+-- @path GAST=/AnalysisCode/Metamodel/gastm.ecore
 
 module GAST2CFG;
 create OUT : CFG from IN : GAST;
 
+helper def : ALL_STATEMENT : Sequence(GAST!Statement) =  GAST!Statement.allInstances();
+
+
+--helper context GAST!Statement def : getCFNext(s : Integer) : Sequence(GAST!Statement)=
+--	if not self.blockstatement.oclIsUndefined() then
+--	
+----			self.blockstatement.statements.subSequence(1, s)
+--	self.blockstatement.statements.at(s+1)
+--	
+--	else
+--		Sequence{}
+--	endif;
+--	
+--
+--helper context GAST!Statement def : getCFPrev(s : Integer) : Sequence(GAST!Statement)=
+--	if not self.blockstatement.oclIsUndefined() then
+----		self.blockstatement.statements.subSequence(0, s)
+--		if self.blockstatement.statements.size() > 0 then 
+--			self.blockstatement.statements.at(s-1)
+--		else
+--			self.blockstatement.statements.at(s)
+--		endif
+--	else
+--		Sequence{}
+--	endif;	
+--	
 
 
 
+helper context GAST!Statement def : getCFNext(s : Integer) : GAST!Statement=
+	if not self.blockstatement.oclIsUndefined() then
+	
+--			self.blockstatement.statements.subSequence(1, s)
+		if self.blockstatement.statements.size()= s then
+			
+			''
+		else
+			self.blockstatement.statements.at(s+1)
+		endif
+	
+	else
+		''
+	endif;
+	
+
+helper context GAST!Statement def : getCFPrev(s : Integer) : GAST!Statement=
+	if not self.blockstatement.oclIsUndefined() then
+--		self.blockstatement.statements.subSequence(0, s)
+		if self.blockstatement.statements.size() > 0 then 
+			self.blockstatement.statements.at(s)
+		else
+			self.blockstatement.statements.at(s)
+		endif
+	else
+		Sequence{}
+	endif;	
+	
+	
+helper context GAST!Statement def : getIndexItem(s : GAST!Statement) : Integer = 
+	if not self.blockstatement.oclIsUndefined() then
+		self.blockstatement.statements.indexOf(s)
+	else
+		0
+	endif;
+	
+	
+	
+helper context GAST!Statement def: statementContainer: OclAny =
+	self.refImmediateComposite();
 
 
 rule Method2StartNode {
@@ -27,7 +93,7 @@ rule Method2StartNode {
 
 rule Simple2Simple {
 	from
-		s : GAST!SimpleStatement
+		s : GAST!SimpleStatement(not s.oclIsUndefined())
 	to 
 		t : CFG!SimpleStatement (
 			id <- s.id,
@@ -48,6 +114,10 @@ rule Simple2Simple {
 			sissyId <- s.sissyId,
 			status <- s.status,
 			surroundingStatement <- s.surroundingStatement
+			,
+			cfNext <- s.getCFNext(s.getIndexItem(s))
+			,
+			cfPrev <- s.getCFPrev(s.getIndexItem(s))
 			
 		)
 }
@@ -159,7 +229,7 @@ rule Loop2Loop {
 			position <- s.position,
 			sissyId <- s.sissyId,
 			status <- s.status,
-			surroundingStatement <- s.surroundingStatement
+			surroundingStatement <- s.surroundingStatement.debug()
 			
 		)
 }
@@ -226,7 +296,7 @@ rule GASTBev2GASTBev {
 	from
 		s : GAST!GASTBehaviour
 	to 
-		t : CFG!GASTBehaviour (
+		t : CFG!BlockStatement (
 			blockstatement <- s.blockstatement.debug()
 		)
 }
