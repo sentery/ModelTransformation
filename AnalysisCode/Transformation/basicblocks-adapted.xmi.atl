@@ -1,0 +1,178 @@
+module basicblocks;
+create OUT : BBL from IN : Imp;
+
+helper context Imp!Statement def: isLeader : Boolean =
+ 
+-- the target of a goto is a leader
+
+ let isTarget : Boolean = Imp!GoToStatement.allInstances()->any(g |
+  g.target = self.self_label
+ ) in
+ if isTarget.oclIsUndefined() then
+  self.previousIsGoto
+ else
+  true
+ endif; 
+-- self.refImmediateComposite().
+
+
+-- self.refImmediateComposite().
+
+helper context Imp!Statement def: previousIsGoto : Boolean =
+ let idx : Integer = self.statementContainer.statements.indexOf(self) in
+ if idx = 0 then
+  false
+ else
+  self.statementContainer.statements->at(idx - 1).oclIsKindOf(Imp!GoToStatement)
+ endif;
+
+helper context Imp!Statement def: statementContainer : OclAny =
+ self.refImmediateComposite();
+
+helper context Imp!GoToStatement def: target_statement : OclAny =
+ self.target;
+
+helper context Imp!Statement def: self_label : Imp!Label =
+ self;
+
+helper context Imp!Statement def: behaveAsStatement : Boolean =
+ true;
+
+rule procedure2basicblock {
+ from
+  proc : Imp!Subroutine
+ to
+  block : BBL!BasicBlock (
+   kind <- #START,
+   identifier <- 'start' 
+--.concat( proc.name )
+
+   
+-- val Statement[*] statements; 
+
+   
+--.concat( proc.name )
+
+   
+-- val Statement[*] statements; 
+
+   
+  )
+}
+
+abstract rule statement2basicblock {
+ from
+  stm : Imp!Statement
+  (
+   if stm.behaveAsStatement then
+    stm.isLeader
+   else
+    false
+   endif
+  )
+ using
+ {
+  container : OclAny = stm.statementContainer;
+  position : Integer = container.statements->indexOf(stm);
+  allRest : OclAny = container.statements->subSequence(position + 1, container.statements->size());
+  nextLeader : Imp!Statement = allRest->any(s |
+   if s.behaveAsStatement then
+    s.isLeader
+   else
+    s.isLeader
+   endif);
+contents : Sequence(Imp!Statement) =  if nextLeader.oclIsUndefined() then
+   Sequence {stm}.union(allRest)
+  else
+   container.statements->subSequence(position, container.statements->indexOf(nextLeader) - 1)
+  endif;
+ }
+ to
+  block : BBL!BasicBlock (   
+   edges <- if contents->last().oclIsKindOf(Imp!GoToStatement) then 
+   	Sequence { thisModule.goto_statement2edge(contents->last() ) } 
+   else 
+   		Sequence { }
+   endif,
+   identifier <- contents->iterate(cstm; str : String = '' |
+    str + ' ' + cstm.toInfo
+   )
+  )
+} 
+--- There is a goto (conditional or unconditional)
+
+
+--- from the last statement of of B1 to the first
+
+
+--- of B2
+
+
+---
+
+
+--- Because of rule 3 ("any statement after a goto is a leader")
+
+
+--- a goto is always the last one of a basic block, so
+
+
+--- no further check is needed.
+
+
+--- There is a goto (conditional or unconditional)
+
+
+--- from the last statement of of B1 to the first
+
+
+--- of B2
+
+
+---
+
+
+--- Because of rule 3 ("any statement after a goto is a leader")
+
+
+--- a goto is always the last one of a basic block, so
+
+
+--- no further check is needed.
+
+lazy rule goto_statement2edge {
+ from
+  gotox : Imp!GoToStatement ( false )
+ to
+  edge : BBL!DirectedEdge (
+   --source <- thisModule.resolveTemp(gotox, 'stm'),
+   target <- gotox.target_statement
+  )
+}
+
+helper context Imp!IntegerConstant def: toInfo : OclAny =
+ self.Value.toString();
+
+helper context Imp!GoToStatement def: toInfo : OclAny =
+ 'goto';
+
+helper context Imp!GoToStatement def: target : OclAny =
+ self.JumpLabel;
+
+helper context Imp!Expression def: behaveAsStatement : OclAny =
+ false;
+
+helper context Imp!VariableExpression def: toInfo : OclAny =
+ self.Variable.Name;
+
+helper context Imp!Subroutine def: statements : OclAny =
+ self.Statements;
+
+helper context Imp!AssignmentStatement def: toInfo : OclAny =
+ self.Variable.toInfo + ' = ' + self.Expression.toInfo;
+
+helper context Imp!GoToStatement def: target_statement : OclAny =
+ self.JumpLabel.refImmediateComposite();
+
+helper context Imp!Statement def: self_label : OclAny =
+ self.Label;

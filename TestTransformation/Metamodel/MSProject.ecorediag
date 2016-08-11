@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_ybNN8KRtEeWHZutjGzuiWw" type="EcoreTools" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_ybNN8qRtEeWHZutjGzuiWw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ybNN9aRtEeWHZutjGzuiWw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ybNN9qRtEeWHZutjGzuiWw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ybNN96RtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ybNN-KRtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ybNN-aRtEeWHZutjGzuiWw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ybNN-qRtEeWHZutjGzuiWw" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ybNN-6RtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ybNN_KRtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ybNN_aRtEeWHZutjGzuiWw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ybNN86RtEeWHZutjGzuiWw" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="MSProject.ecore#//MSProject"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ybNN9KRtEeWHZutjGzuiWw" x="2" y="109"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ybNN_qRtEeWHZutjGzuiWw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ybNOAaRtEeWHZutjGzuiWw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ybNOAqRtEeWHZutjGzuiWw" type="5001">
+      <children xmi:type="notation:Node" xmi:id="_ybNOCqRtEeWHZutjGzuiWw" type="2001">
+        <element xmi:type="ecore:EAttribute" href="MSProject.ecore#//Task/UID"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_ybNOC6RtEeWHZutjGzuiWw"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ybNOA6RtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ybNOBKRtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ybNOBaRtEeWHZutjGzuiWw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ybNOBqRtEeWHZutjGzuiWw" type="5002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ybNOB6RtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ybNOCKRtEeWHZutjGzuiWw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ybNOCaRtEeWHZutjGzuiWw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_ybNN_6RtEeWHZutjGzuiWw" fontColor="4210752" fontHeight="10" fillColor="13761016" lineColor="8421504"/>
+    <element xmi:type="ecore:EClass" href="MSProject.ecore#//Task"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ybNOAKRtEeWHZutjGzuiWw"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_ybNN8aRtEeWHZutjGzuiWw"/>
+  <element xmi:type="ecore:EPackage" href="MSProject.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_ybNODKRtEeWHZutjGzuiWw" type="3002" source="_ybNN8qRtEeWHZutjGzuiWw" target="_ybNN_qRtEeWHZutjGzuiWw">
+    <children xmi:type="notation:Node" xmi:id="_ybNOEKRtEeWHZutjGzuiWw" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ybNOEaRtEeWHZutjGzuiWw" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ybNOEqRtEeWHZutjGzuiWw" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ybNOE6RtEeWHZutjGzuiWw" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ybNODaRtEeWHZutjGzuiWw" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ybNODqRtEeWHZutjGzuiWw" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="MSProject.ecore#//MSProject/tasks"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ybNOD6RtEeWHZutjGzuiWw" points="[0, 0, 0, 60]$[0, -60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_ybgI4KRtEeWHZutjGzuiWw" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_ybgI4aRtEeWHZutjGzuiWw" id="(0.5,1.0)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_ybNOFKRtEeWHZutjGzuiWw" type="3002" source="_ybNN_qRtEeWHZutjGzuiWw" target="_ybNN8qRtEeWHZutjGzuiWw">
+    <children xmi:type="notation:Node" xmi:id="_ybNOGKRtEeWHZutjGzuiWw" type="4011">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ybNOGaRtEeWHZutjGzuiWw" x="-10" y="-10"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_ybNOGqRtEeWHZutjGzuiWw" type="4012">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_ybNOG6RtEeWHZutjGzuiWw" x="10" y="10"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_ybNOFaRtEeWHZutjGzuiWw" lineColor="4210752"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ybNOFqRtEeWHZutjGzuiWw" fontColor="4210752" fontHeight="10"/>
+    <element xmi:type="ecore:EReference" href="MSProject.ecore#//Task/taskOf"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ybNOF6RtEeWHZutjGzuiWw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_ybgI4qRtEeWHZutjGzuiWw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_ybgI46RtEeWHZutjGzuiWw" id="(0.5,0.0)"/>
+  </edges>
+</notation:Diagram>

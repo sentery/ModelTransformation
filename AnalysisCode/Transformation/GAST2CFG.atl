@@ -1,0 +1,118 @@
+-- @path CFG=/AnalysisCode/Metamodel/CFG.ecore
+-- @path GAST=/AnalysisCode/Metamodel/gastm.ecore
+
+module GAST2CFG;
+create OUT : CFG from IN : GAST;
+
+
+helper context GAST!Method def: buildCFG : OclAny =
+	
+	self.body.statements->iterate(i; stmt: GAST!Statement = OclAny |
+			if i.oclIsTypeOf(GAST!SimpleStatement)  then
+				thisModule.Simp2Node()
+			else
+				
+				if  i.oclIsTypeOf(GAST!JumpStatement) then
+					thisModule.Jump2Node()
+				else
+					if i.oclIsTypeOf(GAST!BlockStatement) then
+						self.block
+					else
+						false
+					endif
+				endif
+				
+			endif
+			
+	);
+
+
+helper context GAST!Statement def: block : OclAny =
+	
+	self.statements->iterate(i; stmt: GAST!Statement = OclAny |
+			if i.oclIsTypeOf(GAST!SimpleStatement)  then
+				thisModule.Simp2Node()
+			else
+				
+				if  i.oclIsTypeOf(GAST!JumpStatement) then
+					thisModule.Jump2Node()
+				else
+					if i.oclIsTypeOf(GAST!LoopStatement) then
+						self.Loop
+					else
+						false
+					endif
+				endif
+				
+			endif
+			
+	);
+
+	
+helper context GAST!Statement def: Loop : OclAny =
+	
+	self.loopstatement.block;
+
+rule Method2MControlFlowGraph {
+	from
+		s : GAST!Method (not s.body.oclIsUndefined())
+	to 
+		t : CFG!MControlFlowGraph (
+			methodName <- s.simpleName
+			,
+			nodes <- s.buildCFG
+				
+		)
+}
+
+lazy rule Simp2Node {
+	from
+		s : GAST!SimpleStatement 
+	to 
+		t : CFG!Node (
+			name <- 'SimpleStatement'
+		)
+}
+
+lazy rule Jump2Node {
+	from
+		 s :GAST!JumpStatement
+	to 
+		t : CFG!Node (
+		
+			name <- 'JumpStatement'	
+			
+		)
+}
+
+
+
+lazy rule ConditionNode {
+	from
+		s : GAST!BranchStatement
+	to 
+		t : CFG!ConditionalNode (
+			
+		)
+}
+
+
+lazy rule IterativeNode {
+	from
+		s : GAST!LoopStatement
+	to 
+		t : CFG!IterativeNode (
+			name <- 't'
+			
+		)
+}
+
+lazy rule Expression {
+	from
+		s : GAST!GASTExpression
+	to 
+		t : CFG!Expression (
+			
+		)
+}
+
