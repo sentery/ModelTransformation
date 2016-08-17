@@ -5,109 +5,45 @@ module GAST2CFG;
 create OUT : CFG from IN : GAST;
 
 
-helper context GAST!Method def: buildCFG : OclAny =
+helper context GAST!BlockStatement def: getMap() : Map(GAST!Statement, GAST!Statement) =
+	self.statements->iterate(e; acc: TupleType(
+												prev: GAST!Statement,
+												map: Map(GAST!Statement, GAST!Statement)
+												) = Tuple{ prev = Sequence {}->first(), map = Map{}} |
 	
-	self.body.statements->iterate(i; stmt: GAST!Statement = OclAny |
-			if i.oclIsTypeOf(GAST!SimpleStatement)  then
-				thisModule.Simp2Node()
-			else
-				
-				if  i.oclIsTypeOf(GAST!JumpStatement) then
-					thisModule.Jump2Node()
-				else
-					if i.oclIsTypeOf(GAST!BlockStatement) then
-						self.block
-					else
-						false
-					endif
-				endif
-				
-			endif
-			
-	);
+				Tuple{
+						prev = e,
+						map =
+								if acc.prev.oclIsUndefined() then
+									acc.map
+								else
+									acc.map.including(acc.prev, e)
+								endif
+												}
+).map;
 
 
-helper context GAST!Statement def: block : OclAny =
-	
-	self.statements->iterate(i; stmt: GAST!Statement = OclAny |
-			if i.oclIsTypeOf(GAST!SimpleStatement)  then
-				thisModule.Simp2Node()
-			else
-				
-				if  i.oclIsTypeOf(GAST!JumpStatement) then
-					thisModule.Jump2Node()
-				else
-					if i.oclIsTypeOf(GAST!LoopStatement) then
-						self.Loop
-					else
-						false
-					endif
-				endif
-				
-			endif
-			
-	);
+helper def: next : Map(GAST!Statement, GAST!Statement) =
+       GAST!BlockStatement.allInstances()->asSequence()->iterate(e; acc : Map(GAST!Statement, GAST!Statement) = Map {} |
+               acc.union(e.getMap())
+       );
 
-	
-helper context GAST!Statement def: Loop : OclAny =
-	
-	self.loopstatement.block;
+helper context GAST!Statement def: next : GAST!Statement =
+	thisModule.next.get(self);
 
-rule Method2MControlFlowGraph {
+
+
+
+abstract rule Statement2Node {
 	from
-		s : GAST!Method (not s.body.oclIsUndefined())
+		s : GAST!Statement( not s.oclIsKindOf(GAST!BlockStatement))
 	to 
-		t : CFG!MControlFlowGraph (
-			methodName <- s.simpleName
-			,
-			nodes <- s.buildCFG
-				
+		t : CFG!AbstractNode (
+			--expression <- thisModule.Expression
 		)
 }
 
-lazy rule Simp2Node {
-	from
-		s : GAST!SimpleStatement 
-	to 
-		t : CFG!Node (
-			name <- 'SimpleStatement'
-		)
-}
-
-lazy rule Jump2Node {
-	from
-		 s :GAST!JumpStatement
-	to 
-		t : CFG!Node (
-		
-			name <- 'JumpStatement'	
-			
-		)
-}
-
-
-
-lazy rule ConditionNode {
-	from
-		s : GAST!BranchStatement
-	to 
-		t : CFG!ConditionalNode (
-			
-		)
-}
-
-
-lazy rule IterativeNode {
-	from
-		s : GAST!LoopStatement
-	to 
-		t : CFG!IterativeNode (
-			name <- 't'
-			
-		)
-}
-
-lazy rule Expression {
+lazy abstract rule Expression {
 	from
 		s : GAST!GASTExpression
 	to 
@@ -116,3 +52,81 @@ lazy rule Expression {
 		)
 }
 
+rule createMCFG {
+	from
+		s : GAST!Method(not s.body.oclIsUndefined())
+	to 
+		t : CFG!MControlFlowGraph (
+			name <- s.simpleName+''+s.formalParameters.toString()
+			,
+--			nodes <- GAST!Statement.allInstances()
+--			
+--			,
+			nodes <- if not s.body.oclIsUndefined() then
+						s.body.statements
+					else s.body
+					endif
+		)
+}
+
+rule LoopStatement extends Statement2Node  {
+	from
+		s : GAST!LoopStatement
+	to 
+		t : CFG!IterativeNode (
+			trueConditionNode <- s.body.statements.first(),
+			falseConditionNode <- s.next,
+			name <- s.kind.toString(),
+			nodes <-  s.body.statements
+			
+			
+		)
+}
+
+rule SimpleStatement extends Statement2Node {
+	from
+		s : GAST!SimpleStatement
+	to 
+		t : CFG!Node (
+			toNode <-  if s.oclIsUndefined() then 
+							s.refImmediateComposite().refImmediateComposite()
+						else
+							s.next
+						endif
+		)
+}
+
+
+rule jumpStatement extends Statement2Node {
+	from
+		s : GAST!JumpStatement
+	to 
+		t : CFG!Node (
+			toNode <- if s.oclIsUndefined() then 
+						s.refImmediateComposite().refImmediateComposite()
+						else
+							s.next
+						endif
+		)
+}
+
+rule BranchStatement  extends Statement2Node{
+	from
+		s : GAST!BranchStatement
+	to 
+		t : CFG!ConditionalNode (
+			trueConditionNode <- s.branches.first().statement
+			,
+			falseConditionNode <-  s.branches.last().statement
+			
+		)
+}
+
+--rule ExpressionStatement  extends Statement2Node {
+--	from
+--		s : GAST!GASTExpression
+--	to 
+--		t : CFG!ConditionalNode (
+--			toNode <- s.annotations.
+--		)
+--}

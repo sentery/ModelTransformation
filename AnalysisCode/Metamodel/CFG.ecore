@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
-  <ecore:EPackage name="CFG" nsURI="org.amma.cfg" nsPrefix="org.amma.cfg">
+  <ecore:EPackage name="CFG">
     <eClassifiers xsi:type="ecore:EClass" name="MControlFlowGraph">
       <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
           eType="#/0/AbstractNode" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="methodName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          unique="false" lowerBound="1" eType="#/1/String"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AbstractNode" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="fromNode" ordered="false"
@@ -19,16 +20,18 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#/0/AbstractNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ConditionalNode" eSuperTypes="#/0/AbstractNode">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" ordered="false"
-          lowerBound="1" eType="#/0/Node"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" ordered="false"
-          lowerBound="1" eType="#/0/Node"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" lowerBound="1"
+          upperBound="-1" eType="#/0/Node" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" upperBound="-1"
+          eType="#/0/Node" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IterativeNode" eSuperTypes="#/0/AbstractNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" ordered="false"
           lowerBound="1" eType="#/0/Node"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" ordered="false"
           lowerBound="1" eType="#/0/Node"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+          eType="#/0/AbstractNode" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Expression">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="expressionName" ordered="false"
@@ -40,8 +43,8 @@
     </eClassifiers>
   </ecore:EPackage>
   <ecore:EPackage name="PrimitiveTypes">
-    <eClassifiers xsi:type="ecore:EDataType" name="Boolean" instanceClassName="java.lang.Boolean"/>
-    <eClassifiers xsi:type="ecore:EDataType" name="String" instanceClassName="java.lang.String"/>
-    <eClassifiers xsi:type="ecore:EDataType" name="Integer" instanceClassName="java.lang.Integer"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="Boolean"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="String"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="Integer"/>
   </ecore:EPackage>
 </xmi:XMI>
