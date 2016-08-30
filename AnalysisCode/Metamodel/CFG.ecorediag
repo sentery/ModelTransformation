@@ -202,20 +202,6 @@
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qTxcaGRSEea7B4rjwCXflg" id="(0.3274336283185841,0.0)"/>
     <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qTxcaWRSEea7B4rjwCXflg" id="(0.7941176470588235,1.0)"/>
   </edges>
-  <edges xmi:type="notation:Edge" xmi:id="_qImHVGRSEea7B4rjwCXflg" type="3002" source="_qIcWPGRSEea7B4rjwCXflg" target="_qIcWImRSEea7B4rjwCXflg">
-    <children xmi:type="notation:Node" xmi:id="_qImHWGRSEea7B4rjwCXflg" type="4011">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_qImHWWRSEea7B4rjwCXflg" x="-10" y="-10"/>
-    </children>
-    <children xmi:type="notation:Node" xmi:id="_qImHWmRSEea7B4rjwCXflg" type="4012">
-      <layoutConstraint xmi:type="notation:Location" xmi:id="_qImHW2RSEea7B4rjwCXflg" x="10" y="10"/>
-    </children>
-    <styles xmi:type="notation:ConnectorStyle" xmi:id="_qImHVWRSEea7B4rjwCXflg" lineColor="4210752"/>
-    <styles xmi:type="notation:FontStyle" xmi:id="_qImHVmRSEea7B4rjwCXflg" fontColor="4210752" fontHeight="10"/>
-    <element xmi:type="ecore:EReference" href="CFG.ecore#/0/ConditionalNode/nodes"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_qImHV2RSEea7B4rjwCXflg" points="[0, 0, 108, 169]$[38, -61, 146, 108]$[38, -109, 146, 60]$[-108, -169, 0, 0]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qTxcdGRSEea7B4rjwCXflg" id="(0.7433628318584071,0.0)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_qTxcdWRSEea7B4rjwCXflg" id="(0.9279279279279279,1.0)"/>
-  </edges>
   <edges xmi:type="notation:Edge" xmi:id="_qImHXGRSEea7B4rjwCXflg" type="3003" source="_qIcWPGRSEea7B4rjwCXflg" target="_qIcWImRSEea7B4rjwCXflg">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_qImHXWRSEea7B4rjwCXflg" routing="Rectilinear" lineColor="4210752"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_qImHXmRSEea7B4rjwCXflg"/>

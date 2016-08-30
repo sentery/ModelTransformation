@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore">
-  <ecore:EPackage name="CFG">
+  <ecore:EPackage name="DFG">
     <eClassifiers xsi:type="ecore:EClass" name="MControlFlowGraph">
       <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
           eType="#/0/AbstractNode" containment="true"/>
@@ -17,6 +17,10 @@
           lowerBound="1" eType="#/0/Expression" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
           unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dfNext" upperBound="-1"
+          eType="#/0/AbstractNode"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="varName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#/0/AbstractNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ConditionalNode" eSuperTypes="#/0/AbstractNode">
