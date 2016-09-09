@@ -21,6 +21,10 @@
           eType="#/0/AbstractNode"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="varName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="defs" upperBound="-1"
+          eType="#/0/Var" eOpposite="#/0/Var/definers"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="use" upperBound="-1"
+          eType="#/0/Var" eOpposite="#/0/Var/users"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#/0/AbstractNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ConditionalNode" eSuperTypes="#/0/AbstractNode">
@@ -44,6 +48,13 @@
           unique="false" lowerBound="1" eType="#/1/Boolean"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="innerExpression" ordered="false"
           upperBound="-1" eType="#/0/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Var">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="definers" upperBound="-1"
+          eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/defs"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
+          eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/use"/>
     </eClassifiers>
   </ecore:EPackage>
   <ecore:EPackage name="PrimitiveTypes">
