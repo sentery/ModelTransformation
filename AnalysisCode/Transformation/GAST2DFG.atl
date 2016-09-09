@@ -1,0 +1,165 @@
+-- @path DFG=/AnalysisCode/Metamodel/DFG.ecore
+-- @path GAST=/AnalysisCode/Metamodel/gastm.ecore
+
+module GAST2DFG;
+create OUT : DFG from IN : GAST;
+
+
+
+helper context GAST!BlockStatement def: getMap() : Map(GAST!Statement, GAST!Statement) =
+	self.statements->iterate(e; acc: TupleType(
+												prev: GAST!Statement,
+												map: Map(GAST!Statement, GAST!Statement)
+												) = Tuple{ prev = Sequence {}->first(), map = Map{}} |
+	
+				Tuple{
+						prev = e,
+						map =
+								if acc.prev.oclIsUndefined() then
+									acc.map
+								else
+									acc.map.including(acc.prev, e)
+								endif
+												}
+).map;
+
+
+helper def: next : Map(GAST!Statement, GAST!Statement) =
+       GAST!BlockStatement.allInstances()->asSequence()->iterate(e; acc : Map(GAST!Statement, GAST!Statement) = Map {} |
+               acc.union(e.getMap())
+       );
+
+helper context GAST!Statement def: next : GAST!Statement =
+	thisModule.next.get(self);
+
+
+helper context GAST!Statement def : getAllValiable : Sequence(GAST!LocalVariable) =
+--self.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->select(e2 | e2.accessedTarget.oclIsKindOf(GAST!LocalVariable));
+	let vars : Sequence(GAST!LocalVariable) = 
+			self.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))
+	in 
+			vars->select(e2 | e2.accessedTarget.oclIsKindOf(GAST!LocalVariable));
+		
+
+abstract rule Statement2Node {
+	from
+		s : GAST!Statement( not s.oclIsKindOf(GAST!BlockStatement))
+	to 
+		t : DFG!AbstractNode (
+			--expression <- thisModule.Expression
+--			defs <- s.getAllValiable
+		)
+		do{
+			s.getAllValiable.size().toString().debug();
+		}
+--		,
+--		var : DFG!Var(
+--			definers <- t,
+--			name <-  s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget->select(e1 | e1.oclIsKindOf(GAST!LocalVariable)->collect(c | c.simpleName.debug())))
+--		)
+}
+
+lazy abstract rule Expression {
+	from
+		s : GAST!GASTExpression
+	to 
+		t : DFG!Expression (
+			
+		)
+}
+
+rule createMDFG {
+	from
+		s : GAST!Method(not s.body.oclIsUndefined())
+	to 
+		t : DFG!MControlFlowGraph (
+			name <- s.simpleName.debug()
+			,
+--			nodes <- GAST!Statement.allInstances()
+--			
+--			,
+			nodes <- if not s.body.oclIsUndefined() then
+						s.body.statements
+					else s.body
+					endif
+		)
+}
+
+rule LoopStatement extends Statement2Node  {
+	from
+		s : GAST!LoopStatement
+	to 
+		t : DFG!IterativeNode (
+			trueConditionNode <- s.body.statements.first(),
+			falseConditionNode <- s.next,
+			name <- s.kind.toString(),
+			nodes <-  s.body.statements
+			
+			
+			
+		)
+}
+
+rule SimpleStatement extends Statement2Node {
+	from
+		s : GAST!SimpleStatement
+	to 
+		t : DFG!Node (
+			toNode <-  if s.oclIsUndefined() then 
+							s.refImmediateComposite().refImmediateComposite()
+						else
+							s.next
+						endif
+						
+		)
+		
+		
+		do {
+--		s.debug('simplestm > '+s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess)).flatten()->size());
+}
+}
+
+
+rule jumpStatement extends Statement2Node {
+	from
+		s : GAST!JumpStatement
+	to 
+		t : DFG!Node (
+			toNode <- if s.oclIsUndefined() then 
+						s.refImmediateComposite().refImmediateComposite()
+						else
+							s.next
+						endif
+		)
+}
+
+rule BranchStatement  extends Statement2Node{
+	from
+		s : GAST!BranchStatement
+	to 
+		t : DFG!ConditionalNode (
+			trueConditionNode <- s.branches.first().statement
+			,
+			falseConditionNode <-  s.branches.last().statement
+--			,
+--			varName <- s.accesses.first().accessedTarget.simpleName
+			
+		)
+}
+
+rule LocalValiable2Var {
+	from
+		s : GAST!LocalVariable
+	to 
+		t : DFG!Var (
+			name <- s.simpleName
+		)
+}
+--rule ExpressionStatement  extends Statement2Node {
+--	from
+--		s : GAST!GASTExpression
+--	to 
+--		t : DFG!ConditionalNode (
+--			toNode <- s.annotations.
+--		)
+--}
