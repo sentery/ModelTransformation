@@ -7,6 +7,8 @@
           eType="#/0/AbstractNode" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
           unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="localVar" upperBound="-1"
+          eType="#/0/Var" containment="true" eOpposite="#/0/Var/method"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AbstractNode" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="fromNode" ordered="false"
@@ -17,13 +19,15 @@
           lowerBound="1" eType="#/0/Expression" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
           unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="var" upperBound="-1"
+          eType="#/0/Var" containment="true" eOpposite="#/0/Var/nodes"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#/0/AbstractNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ConditionalNode" eSuperTypes="#/0/AbstractNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" lowerBound="1"
-          upperBound="-1" eType="#/0/Node" containment="true"/>
+          upperBound="-1" eType="#/0/AbstractNode" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" upperBound="-1"
-          eType="#/0/Node" containment="true"/>
+          eType="#/0/AbstractNode" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IterativeNode" eSuperTypes="#/0/AbstractNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" ordered="false"
@@ -40,6 +44,13 @@
           unique="false" lowerBound="1" eType="#/1/Boolean"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="innerExpression" ordered="false"
           upperBound="-1" eType="#/0/Expression" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Var">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="#/0/MControlFlowGraph"
+          eOpposite="#/0/MControlFlowGraph/localVar"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
+          eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/var"/>
     </eClassifiers>
   </ecore:EPackage>
   <ecore:EPackage name="PrimitiveTypes">

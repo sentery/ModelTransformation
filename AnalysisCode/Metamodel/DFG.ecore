@@ -7,6 +7,8 @@
           eType="#/0/AbstractNode" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
           unique="false" lowerBound="1" eType="#/1/String"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="vars" upperBound="-1"
+          eType="#/0/Var" containment="true" eOpposite="#/0/Var/method"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AbstractNode" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EReference" name="fromNode" ordered="false"
@@ -22,7 +24,7 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nodeType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="varName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="defs" upperBound="-1"
-          eType="#/0/Var" eOpposite="#/0/Var/definers"/>
+          eType="#/0/Var" containment="true" eOpposite="#/0/Var/definers"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="use" upperBound="-1"
           eType="#/0/Var" eOpposite="#/0/Var/users"/>
     </eClassifiers>
@@ -55,6 +57,8 @@
           eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/defs"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="users" upperBound="-1"
           eType="#/0/AbstractNode" eOpposite="#/0/AbstractNode/use"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="method" eType="#/0/MControlFlowGraph"
+          eOpposite="#/0/MControlFlowGraph/vars"/>
     </eClassifiers>
   </ecore:EPackage>
   <ecore:EPackage name="PrimitiveTypes">

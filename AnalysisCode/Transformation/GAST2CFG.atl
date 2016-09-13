@@ -40,6 +40,7 @@ abstract rule Statement2Node {
 	to 
 		t : CFG!AbstractNode (
 			--expression <- thisModule.Expression
+			var <- s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget)->select(e2| e2.oclIsKindOf(GAST!LocalVariable))
 		)
 }
 
@@ -65,7 +66,8 @@ rule createMCFG {
 			nodes <- if not s.body.oclIsUndefined() then
 						s.body.statements
 					else s.body
-					endif
+					endif,
+			localVar <- s.localVariables
 		)
 }
 
@@ -115,12 +117,39 @@ rule BranchStatement  extends Statement2Node{
 		s : GAST!BranchStatement
 	to 
 		t : CFG!ConditionalNode (
-			trueConditionNode <- s.branches.first().statement
-			,
-			falseConditionNode <-  s.branches.last().statement
+--			trueConditionNode <- s.branches->collect(c | c.statement.next)
+			trueConditionNode <-s.branches.first(),
+			falseConditionNode <-  s.branches.last()
+			
 			
 		)
+		
+
 }
+
+ rule Brannch {
+	from
+		s : GAST!Branch
+	to 
+		t : CFG!Node (
+			toNode <- if s.oclIsUndefined() then 
+						s.refImmediateComposite().refImmediateComposite()
+						else
+							s.statement.next
+						endif
+		)
+}
+
+
+ rule LocalVariable2Var {
+	from
+		s : GAST!LocalVariable
+	to 
+		t : CFG!Var (
+			name <- s.simpleName
+		)
+}
+
 
 --rule ExpressionStatement  extends Statement2Node {
 --	from

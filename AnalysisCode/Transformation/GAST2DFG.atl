@@ -47,10 +47,10 @@ abstract rule Statement2Node {
 	to 
 		t : DFG!AbstractNode (
 			--expression <- thisModule.Expression
---			defs <- s.getAllValiable
+			defs <- s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget)->select(e2| e2.oclIsKindOf(GAST!LocalVariable))
 		)
 		do{
-			s.getAllValiable.size().toString().debug();
+			s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->select(e2 | e2.oclIsKindOf(GAST!LocalVariable)).toString().debug();
 		}
 --		,
 --		var : DFG!Var(
@@ -82,6 +82,8 @@ rule createMDFG {
 						s.body.statements
 					else s.body
 					endif
+					,
+					vars <- s.localVariables
 		)
 }
 
