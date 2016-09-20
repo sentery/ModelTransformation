@@ -39,30 +39,19 @@ abstract rule Statement2Node {
 		s : GAST!Statement( not s.oclIsKindOf(GAST!BlockStatement))
 	to 
 		t : CFG!AbstractNode (
-			--expression <- thisModule.Expression
 			var <- s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget)->select(e2| e2.oclIsKindOf(GAST!LocalVariable))
 		)
 }
 
-lazy abstract rule Expression {
-	from
-		s : GAST!GASTExpression
-	to 
-		t : CFG!Expression (
-			
-		)
-}
+
 
 rule createMCFG {
 	from
 		s : GAST!Method(not s.body.oclIsUndefined())
 	to 
 		t : CFG!MControlFlowGraph (
-			name <- s.simpleName+''+s.formalParameters.toString()
+			name <- s.simpleName
 			,
---			nodes <- GAST!Statement.allInstances()
---			
---			,
 			nodes <- if not s.body.oclIsUndefined() then
 						s.body.statements
 					else s.body
@@ -117,28 +106,26 @@ rule BranchStatement  extends Statement2Node{
 		s : GAST!BranchStatement
 	to 
 		t : CFG!ConditionalNode (
---			trueConditionNode <- s.branches->collect(c | c.statement.next)
-			trueConditionNode <-s.branches.first(),
-			falseConditionNode <-  s.branches.last()
-			
+			trueConditionNode <-   s.branches.first().statement,
+			falseConditionNode  <-  s.branches.last().statement
+			,
+			toNode <- s.next
 			
 		)
 		
 
 }
 
- rule Brannch {
-	from
-		s : GAST!Branch
-	to 
-		t : CFG!Node (
-			toNode <- if s.oclIsUndefined() then 
-						s.refImmediateComposite().refImmediateComposite()
-						else
-							s.statement.next
-						endif
-		)
-}
+-- rule Brannch {
+--	from
+--		s : GAST!Branch
+--	to 
+--		t : CFG!Node (
+----			toNode <- s.statement.next
+--		var <- s.statement.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget)->select(e2| e2.oclIsKindOf(GAST!LocalVariable))
+--
+--		)
+--}
 
 
  rule LocalVariable2Var {

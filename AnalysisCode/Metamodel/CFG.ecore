@@ -24,10 +24,10 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#/0/AbstractNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ConditionalNode" eSuperTypes="#/0/AbstractNode">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" lowerBound="1"
-          upperBound="-1" eType="#/0/AbstractNode" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" upperBound="-1"
-          eType="#/0/AbstractNode" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" ordered="false"
+          lowerBound="1" eType="#/0/Node" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="falseConditionNode" ordered="false"
+          lowerBound="1" eType="#/0/Node" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IterativeNode" eSuperTypes="#/0/AbstractNode">
       <eStructuralFeatures xsi:type="ecore:EReference" name="trueConditionNode" ordered="false"
