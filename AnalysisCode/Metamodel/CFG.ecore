@@ -21,6 +21,8 @@
           unique="false" lowerBound="1" eType="#/1/String"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="var" upperBound="-1"
           eType="#/0/Var" containment="true" eOpposite="#/0/Var/nodes"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dataFlow" upperBound="-1"
+          eType="#/0/AbstractNode"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Node" eSuperTypes="#/0/AbstractNode"/>
     <eClassifiers xsi:type="ecore:EClass" name="ConditionalNode" eSuperTypes="#/0/AbstractNode">
