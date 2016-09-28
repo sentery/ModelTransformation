@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<controlflowgraph:ControlFlowGraph xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:controlflowgraph="controlflowgraph">
+  <nodes xsi:type="controlflowgraph:InitialNode" name="S" outgoing="//@edges.1"/>
+  <nodes name="0" outgoing="//@edges.0"/>
+  <nodes name="1" incoming="//@edges.0 //@edges.1 //@edges.4" outgoing="//@edges.2"/>
+  <nodes name="2" incoming="//@edges.2" outgoing="//@edges.3 //@edges.5"/>
+  <nodes name="3" incoming="//@edges.3" outgoing="//@edges.4"/>
+  <nodes xsi:type="controlflowgraph:FinalNode" name="E" incoming="//@edges.5"/>
+  <edges source="//@nodes.1" target="//@nodes.2"/>
+  <edges source="//@nodes.0" target="//@nodes.2"/>
+  <edges source="//@nodes.2" target="//@nodes.3"/>
+  <edges source="//@nodes.3" target="//@nodes.4"/>
+  <edges source="//@nodes.4" target="//@nodes.2"/>
+  <edges source="//@nodes.3" target="//@nodes.5"/>
+</controlflowgraph:ControlFlowGraph>

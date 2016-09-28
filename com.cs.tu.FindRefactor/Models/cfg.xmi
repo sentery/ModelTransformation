@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<MControlFlowGraph xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="www.cs.tu.ac.th" name="getPrice">
+  <nodes xsi:type="Node" toNode="//@nodes.1" dataFlow="//@nodes.3"/>
+  <nodes xsi:type="Node" fromNode="//@nodes.0" toNode="//@nodes.2" dataFlow="//@nodes.2/@trueConditionNode //@nodes.2/@falseConditionNode //@nodes.3"/>
+  <nodes xsi:type="ConditionalNode" fromNode="//@nodes.1" toNode="//@nodes.3" dataFlow="//@nodes.3">
+    <trueConditionNode dataFlow="//@nodes.2/@falseConditionNode //@nodes.3"/>
+    <falseConditionNode dataFlow="//@nodes.2/@trueConditionNode //@nodes.3"/>
+  </nodes>
+  <nodes xsi:type="Node" fromNode="//@nodes.2"/>
+  <localVar name="discountFactor"/>
+  <localVar name="basePrice"/>
+</MControlFlowGraph>

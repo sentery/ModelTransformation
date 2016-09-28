@@ -6,7 +6,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
           eType="#/0/AbstractNode" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
-          unique="false" lowerBound="1" eType="#/1/String"/>
+          unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="localVar" upperBound="-1"
           eType="#/0/Var" containment="true" eOpposite="#/0/Var/method"/>
     </eClassifiers>
@@ -18,7 +18,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="expression" ordered="false"
           lowerBound="1" eType="#/0/Expression" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
-          unique="false" lowerBound="1" eType="#/1/String"/>
+          unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="var" upperBound="-1"
           eType="#/0/Var" containment="true" eOpposite="#/0/Var/nodes"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="dataFlow" upperBound="-1"
@@ -41,9 +41,9 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Expression">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="expressionName" ordered="false"
-          unique="false" lowerBound="1" eType="#/1/String"/>
+          unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="isIdentifier" ordered="false"
-          unique="false" lowerBound="1" eType="#/1/Boolean"/>
+          unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="innerExpression" ordered="false"
           upperBound="-1" eType="#/0/Expression" containment="true"/>
     </eClassifiers>
