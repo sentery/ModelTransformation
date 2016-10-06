@@ -53,7 +53,7 @@ public class Gast2Cfg_M2M {
 	 public static void main(String[] args) { 
 		  try { 
 			Gast2Cfg_M2M runner = new Gast2Cfg_M2M(); 
-		    runner.loadModels("Models/jfreechart13.gast"); 
+		    runner.loadModels("Models/getprice.gast"); 
 		    runner.doGAST2CFG_M2M(new NullProgressMonitor()); 
 		    runner.saveModels("Models/cfg.xmi"); 
 		  } catch (ATLCoreException e) { 

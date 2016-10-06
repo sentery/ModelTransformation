@@ -11,7 +11,7 @@ helper context GAST!BlockStatement def: getMap() : Map(GAST!Statement, GAST!Stat
 	
 				Tuple{prev = e, map = if acc.prev.oclIsUndefined() then
 									acc.map
-								else
+								else 
 									acc.map.including(acc.prev, e)
 								endif
 												}).map;
@@ -29,27 +29,57 @@ helper context GAST!Statement def: next : GAST!Statement =
 
 
 
-helper context GAST!VariableAccess def: isExist(var : GAST!LocalVariable) : Boolean = 
-	self.accessedTarget->select(e | e.oclIsKindOf(GAST!LocalVariable))->collect(c | c = var);
+helper context GAST!BlockStatement def: dfNext(var : GAST!LocalVariable) : Sequence(GAST!Statement)=
+	self.statements->iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
 	
-
-helper context GAST!Statement def: getDfNext (var : GAST!LocalVariable) : Sequence(GAST!Statement) =
-	
-	GAST!Statement.allInstances()->select(r | not r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
-	iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
-	
-	e.accesses->collect(c | 
+				e.accesses->collect(c | 	
+					if  c.oclIsKindOf(GAST!VariableAccess)  then 
+							if  c.accessedTarget = var then
 		
-		if c.accessedTarget = var  then 
-			acc.including(e) 
-		else
-			Sequence{}
-		endif
-	)
-	
-	
-	
-	);
+									acc.including(e)
+							else
+									Sequence{}
+							endif
+					else
+							Sequence{}
+					endif
+												));
+helper def: getNext(var : GAST!LocalVariable) : Sequence(GAST!Statement) =
+       GAST!BlockStatement.allInstances()->asSequence()->iterate(e; acc : Sequence(GAST!Statement)=  Sequence {} |
+               acc.union(e.dfNext(var))
+       );
+
+helper context GAST!Statement def: getDfNext  : Sequence(GAST!Statement) =
+	thisModule.getNext(self.accesses->collect(e |
+				if e.oclIsKindOf(GAST!VariableAccess) then 
+					e.accessedTarget
+				else
+					false
+				endif
+			)->first());
+
+--helper context GAST!Statement def: getDfNext (var : GAST!LocalVariable) : Sequence(GAST!Statement) =
+--	
+----	GAST!Statement.allInstances()->select(r | not r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
+--
+--GAST!Statement.allInstances()->reject(r |  r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
+--	iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
+--	
+--	e.accesses->collect(c | 
+--		
+--		if  c.oclIsKindOf(GAST!VariableAccess)  then 
+--			if  c.accessedTarget = var then
+--		
+--				acc.including(e)
+--			else
+--				Sequence{}
+--			endif
+--		else
+--			Sequence{}
+--		endif
+--	)
+--	
+--	);
 	
 	
 
@@ -68,11 +98,32 @@ abstract rule Statement2Node {
 		s : GAST!Statement( not s.oclIsKindOf(GAST!BlockStatement))
 	to 
 		t : CFG!AbstractNode (
+			dataFlow <- s.getDfNext
 			
-			dataFlow <- s.getDfNext(s.accesses->collect(c |c.accessedTarget)->first())
---			,
---			var <- s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget)->select(e2| e2.oclIsKindOf(GAST!LocalVariable))
+--			dataFlow <- s.getDfNext(
+--					s.accesses->collect(e |
+--				if e.oclIsKindOf(GAST!VariableAccess) then 
+--					e.accessedTarget
+--				else
+--					false
+--				endif
+--			)->first())
+			,
+			dUse <- if not s.accesses.first().oclIsUndefined() and  s.accesses.first().oclIsKindOf(GAST!VariableAccess)then 
+						s.accesses.first().write.toString()
+					else
+						'false'
+					endif
+			,
+			var <- s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget)
+				->select(e2| e2.oclIsKindOf(GAST!LocalVariable) )
+			,
+			params <- s.accesses->select(e | e.oclIsKindOf(GAST!VariableAccess))->collect(c | c.accessedTarget)
+				->select(e2| e2.oclIsKindOf(GAST!FormalParameter) )
+			
 		)
+		
+		
 }
 
 
@@ -89,7 +140,7 @@ rule createMCFG {
 					else s.body
 					endif
 					,
-			localVar <- s.localVariables
+			localVar <- s.localVariables->union(s.formalParameters)
 		)
 		
 		do {	
@@ -124,10 +175,23 @@ rule SimpleStatement extends Statement2Node {
 							s.next
 						endif
 						
+						
+						
 		)
 		
-		do {
-	}
+				do{
+--					s.getDfNext.debug();
+--					s.getDfNext(
+--					s.accesses->collect(e |
+--				if e.oclIsKindOf(GAST!VariableAccess) then 
+--					e.accessedTarget
+--				else
+--					false
+--				endif
+--			)->first()).debug();
+--					s.accesses->select(e |e.oclIsKindOf(GAST!VariableAccess)->select(c | c.accessedTarget.oclIsKindOf(GAST!LocalVariable)))->first().simpleName.debug();
+--					s.accesses->collect(e |e.accessedTarget)->first().simpleName.debug();
+		}
 }
 
 
@@ -142,6 +206,7 @@ rule jumpStatement extends Statement2Node {
 							s.next
 						endif
 		)
+
 }
 
 rule BranchStatement  extends Statement2Node{
@@ -149,17 +214,31 @@ rule BranchStatement  extends Statement2Node{
 		s : GAST!BranchStatement
 	to 
 		t : CFG!ConditionalNode (
-			trueConditionNode <-   s.branches.first().statement,
-			falseConditionNode  <-  s.branches.last().statement
+			falseConditionNode <-  if s.branches.first().statement.oclIsKindOf(GAST!BlockStatement) then
+									 s.branches.first().statement.blockstatement
+									else
+										s.branches.first().statement
+									endif
 			,
-			toNode <- s.next
+			 
+			trueConditionNode <-   if s.branches.last().statement.oclIsKindOf(GAST!BlockStatement) then 
+									 s.branches.last().statement.blockstatement
+									 else
+									 	s.branches.last().statement
+									endif
+									
+--			,
+--
+--			toNode <- s.next
 			
 			
 			
 			
 		)
 	
+	do{
 	
+	}
 
 }
 
@@ -182,6 +261,16 @@ rule BranchStatement  extends Statement2Node{
 		t : CFG!Var (
 			name <- s.simpleName
 			
+			
+		)
+}
+ 
+ rule FormalParam {
+	from
+		s : GAST!FormalParameter
+	to 
+		t : CFG!Param (
+			name <- s.simpleName
 		)
 }
 

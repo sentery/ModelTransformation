@@ -1,6 +1,6 @@
 package com.cs.tu.findrefactor.core;
 
-import com.cs.tu.findrefactor.model.CfgPackage;
+import com.cs.tu.findrefactor.model.CFGPackage;
 import com.cs.tu.findrefactor.model.MControlFlowGraph;
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class EMFModelLoad {
 
 	
 	public MControlFlowGraph load(){
-		CfgPackage.eINSTANCE.eClass();
+		CFGPackage.eINSTANCE.eClass();
 		
 		  Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
           Map<String, Object> m = reg.getExtensionToFactoryMap();

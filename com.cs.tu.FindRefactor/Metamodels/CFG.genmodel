@@ -4,40 +4,36 @@
     modelName="CFG" importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0"
     copyrightFields="false">
   <foreignModel>CFG.ecore</foreignModel>
-  <genPackages prefix="cfg" basePackage="com.cs.tu.findrefactor" disposableProviderFactory="true"
-      ecorePackage="CFG.ecore#/0">
-    <genClasses ecoreClass="CFG.ecore#/0/MControlFlowGraph">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/MControlFlowGraph/nodes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#/0/MControlFlowGraph/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/MControlFlowGraph/localVar"/>
+  <genPackages prefix="CFG" disposableProviderFactory="true" ecorePackage="CFG.ecore#/">
+    <genClasses ecoreClass="CFG.ecore#//MControlFlowGraph">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#//MControlFlowGraph/nodes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#//MControlFlowGraph/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#//MControlFlowGraph/localVar"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="CFG.ecore#/0/AbstractNode">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#/0/AbstractNode/fromNode"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#/0/AbstractNode/toNode"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/AbstractNode/expression"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#/0/AbstractNode/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/AbstractNode/var"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#/0/AbstractNode/dataFlow"/>
+    <genClasses image="false" ecoreClass="CFG.ecore#//AbstractNode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#//AbstractNode/fromNode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#//AbstractNode/toNode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#//AbstractNode/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#//AbstractNode/var"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#//AbstractNode/dataFlow"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#//AbstractNode/dUse"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#//AbstractNode/params"/>
     </genClasses>
-    <genClasses ecoreClass="CFG.ecore#/0/Node"/>
-    <genClasses ecoreClass="CFG.ecore#/0/ConditionalNode">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/ConditionalNode/trueConditionNode"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/ConditionalNode/falseConditionNode"/>
+    <genClasses ecoreClass="CFG.ecore#//Node"/>
+    <genClasses ecoreClass="CFG.ecore#//ConditionalNode">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#//ConditionalNode/trueConditionNode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#//ConditionalNode/falseConditionNode"/>
     </genClasses>
-    <genClasses ecoreClass="CFG.ecore#/0/IterativeNode">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#/0/IterativeNode/trueConditionNode"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#/0/IterativeNode/falseConditionNode"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/IterativeNode/nodes"/>
+    <genClasses ecoreClass="CFG.ecore#//IterativeNode">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#//IterativeNode/trueConditionNode"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference CFG.ecore#//IterativeNode/falseConditionNode"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#//IterativeNode/nodes"/>
     </genClasses>
-    <genClasses ecoreClass="CFG.ecore#/0/Expression">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#/0/Expression/expressionName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#/0/Expression/isIdentifier"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference CFG.ecore#/0/Expression/innerExpression"/>
+    <genClasses ecoreClass="CFG.ecore#//Var">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#//Var/name"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference CFG.ecore#//Var/method"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference CFG.ecore#//Var/nodes"/>
     </genClasses>
-    <genClasses ecoreClass="CFG.ecore#/0/Var">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute CFG.ecore#/0/Var/name"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference CFG.ecore#/0/Var/method"/>
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference CFG.ecore#/0/Var/nodes"/>
-    </genClasses>
+    <genClasses ecoreClass="CFG.ecore#//Param"/>
   </genPackages>
 </genmodel:GenModel>
