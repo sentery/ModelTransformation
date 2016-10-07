@@ -3,6 +3,8 @@ package com.cs.tu.findrefactor.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -15,6 +17,7 @@ import org.eclipse.m2m.atl.emftvm.Getcb;
 
 import com.cs.tu.findrefactor.graph.FindAllPaths;
 import com.cs.tu.findrefactor.graph.GraphFindAllPaths;
+import com.cs.tu.findrefactor.graph.GraphMatrix;
 
 import CFG.AbstractNode;
 import CFG.CFGPackage;
@@ -50,17 +53,21 @@ public class LoadTest {
 					URI.createURI("Models/cfg.xmi"), true);
 
 			// try to load the file into resource
-//			List<AbstractNode> nodeList = new ArrayList<AbstractNode>();
-			
+			List<AbstractNode> nodeList = null;
+			GraphFindAllPaths<AbstractNode> graphFindAllPaths = null;
 			StringBuffer sb = null;
 			for (EObject eObj : resource.getContents()) {
+				
 				MControlFlowGraphImpl mControlFlowGraphImpl = (MControlFlowGraphImpl) eObj;
 
 				EList<Var> localVars = mControlFlowGraphImpl.getLocalVar();
 				if (localVars != null && localVars.size() > 0) {
 					
 					for (Var var : localVars) {
-						GraphFindAllPaths<String> graphFindAllPaths = new GraphFindAllPaths<String>();
+						graphFindAllPaths = new GraphFindAllPaths<AbstractNode>();
+						nodeList = new ArrayList<AbstractNode>();
+						
+
 						if (mControlFlowGraphImpl.getNodes() != null) {
 							for (AbstractNode aNode : mControlFlowGraphImpl
 									.getNodes()) {
@@ -69,9 +76,10 @@ public class LoadTest {
 									NodeImpl node = (NodeImpl) aNode;
 									if (node.getVar() != null) {
 										for (Var v : node.getVar()) {
-											if (v.getName().equals(
-													var.getName())) {
-												graphFindAllPaths.addNode(aNode.getClass()+" : "+v.getName());
+											if (v.getName().equals(var.getName())) {
+											
+												nodeList.add(aNode);
+												graphFindAllPaths.addNode(aNode);
 												break;
 											}
 
@@ -84,9 +92,10 @@ public class LoadTest {
 									ConditionalNodeImpl conNode = (ConditionalNodeImpl) aNode;
 									if (conNode.getVar() != null) {
 										for (Var v : conNode.getVar()) {
-											if (v.getName().equals(
-													var.getName())) {
-												graphFindAllPaths.addNode(aNode.getClass()+" : "+v.getName());
+											if (v.getName().equals(var.getName())) {
+												
+												nodeList.add(conNode);
+												graphFindAllPaths.addNode(conNode);
 												break;
 											}
 
@@ -96,9 +105,9 @@ public class LoadTest {
 											EList<Var> vList = conNode.getTrueConditionNode().getVar();
 											if (vList != null) {
 												for (Var v : vList) {
-													if (v.getName().equals(
-															var.getName())) {
-														graphFindAllPaths.addNode(conNode.getTrueConditionNode().getClass()+" : "+v.getName());
+													if (v.getName().equals(var.getName())) {
+														nodeList.add(conNode.getTrueConditionNode());
+														graphFindAllPaths.addNode(conNode.getTrueConditionNode());
 														break;
 													}
 												}
@@ -109,9 +118,9 @@ public class LoadTest {
 											EList<Var> vList = conNode.getFalseConditionNode().getVar();
 											if (vList != null) {
 												for (Var v : vList) {
-													if (v.getName().equals(
-															var.getName())) {
-														graphFindAllPaths.addNode(conNode.getFalseConditionNode().getClass()+" : "+v.getName());
+													if (v.getName().equals(var.getName())) {
+														nodeList.add(conNode.getFalseConditionNode());
+														graphFindAllPaths.addNode(conNode.getFalseConditionNode());
 														break;
 													}
 												}
@@ -127,7 +136,8 @@ public class LoadTest {
 										for (Var v : iNode.getVar()) {
 											if (v.getName().equals(
 													var.getName())) {
-												graphFindAllPaths.addNode(iNode.getClass()+" : "+v.getName());
+												nodeList.add(iNode);
+												graphFindAllPaths.addNode(iNode);
 												break;
 											}
 
@@ -139,21 +149,85 @@ public class LoadTest {
 							}
 						}
 						
-						 FindAllPaths<String > findAllPaths = new FindAllPaths<String >(graphFindAllPaths);
-						 List<List<String>> pathList = findAllPaths.getAllPaths(graphFindAllPaths.nodeList.get(0), graphFindAllPaths.nodeList.get(graphFindAllPaths.nodeList.size()-1));
 						
-						 						System.out.println(var.getName());
-						 for (List<String> list : pathList) {
-							System.out.println(list);
-						}
-						 System.out.println("-------------------------");
+//						
+//						Set<Entry<String, Map<String, AbstractNode>>> se = graphFindAllPaths.graph.entrySet();
+//						for (Entry<String, Map<String, AbstractNode>> entry : se) {
+//							System.out.println(entry.getKey()+" : "+entry.getValue());
+//						}
+//						 FindAllPaths<AbstractNode > findAllPaths = new FindAllPaths<AbstractNode >(graphFindAllPaths);
+//						 List<List<AbstractNode>> pathList = findAllPaths.getAllPaths(graphFindAllPaths.nodeList.get(0), graphFindAllPaths.nodeList.get(graphFindAllPaths.nodeList.size()-1));
+//						
+//						 System.out.println(var.getName());
+//						 for (List<AbstractNode> list : pathList) {
+//							System.out.println(list);
+//						}
+//						 System.out.println("-------------------------");
 						 
 
+						
+						
+						if(nodeList != null && nodeList.size() > 0){
+							for(int i = 0; i < nodeList.size(); i++){
+								AbstractNode abstractNode = nodeList.get(i);
+								if(i != nodeList.size()-1){
+									graphFindAllPaths.addEdge(abstractNode, nodeList.get(i+1), i);
+								}
+								
+							}
+							
+							FindAllPaths<AbstractNode> findAllPaths = new FindAllPaths<AbstractNode>(graphFindAllPaths);
+					        System.out.println("All possible Paths : "+var.getName());
+					        for (List<AbstractNode> path :findAllPaths.getAllPaths(nodeList.get(0), nodeList.get(nodeList.size()-1)))
+					        {
+					            for (AbstractNode abstractNode : path) {
+									System.out.println(abstractNode.toString());
+								}
+//					            System.out.println();
+					        }
+						}
+						System.out.println("-------------------");
+						
 					}
 
 				}
 
 			}
+			
+//			   GraphFindAllPaths<String> graphFindAllPaths = new GraphFindAllPaths<String>();
+//		        graphFindAllPaths.addNode("A");
+//		        graphFindAllPaths.addNode("B");
+//		        graphFindAllPaths.addNode("C");
+//		        graphFindAllPaths.addNode("D");
+//
+//		        graphFindAllPaths.addEdge("A", "B", 10);
+//		        graphFindAllPaths.addEdge("A", "C", 15);
+//		        graphFindAllPaths.addEdge("B", "A", 10);
+//		        graphFindAllPaths.addEdge("C", "A", 15);
+//		        graphFindAllPaths.addEdge("B", "D", 10);
+//		        graphFindAllPaths.addEdge("C", "D", 20);
+//		        graphFindAllPaths.addEdge("D", "B", 10);
+//		        graphFindAllPaths.addEdge("D", "C", 20);
+//
+//		        graphFindAllPaths.addEdge("B", "C", 5);
+//		        graphFindAllPaths.addEdge("C", "B", 5);
+
+
+//
+//		        FindAllPaths<String> findAllPaths = new FindAllPaths<String>(graphFindAllPaths);
+//
+//		        System.out.println("All possible Paths : ");
+//		        for (List<String> path :findAllPaths.getAllPaths("D", "A"))
+//		        {
+//		            System.out.println(path);
+//		        }
+//
+//		        System.out.println("\nAll possible paths with total distance : ");
+//		        Map<List<String>,Double> pathWithCost = findAllPaths.getAllPathsWithCost("D", "A");
+//		        for(Entry<List<String>, Double> s : pathWithCost.entrySet()){
+//		            System.out.println(s);
+//		        }
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
