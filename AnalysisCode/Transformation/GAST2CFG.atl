@@ -29,57 +29,57 @@ helper context GAST!Statement def: next : GAST!Statement =
 
 
 
-helper context GAST!BlockStatement def: dfNext(var : GAST!LocalVariable) : Sequence(GAST!Statement)=
-	self.statements->iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
-	
-				e.accesses->collect(c | 	
-					if  c.oclIsKindOf(GAST!VariableAccess)  then 
-							if  c.accessedTarget = var then
-		
-									acc.including(e)
-							else
-									Sequence{}
-							endif
-					else
-							Sequence{}
-					endif
-												));
-helper def: getNext(var : GAST!LocalVariable) : Sequence(GAST!Statement) =
-       GAST!BlockStatement.allInstances()->asSequence()->iterate(e; acc : Sequence(GAST!Statement)=  Sequence {} |
-               acc.union(e.dfNext(var))
-       );
-
-helper context GAST!Statement def: getDfNext  : Sequence(GAST!Statement) =
-	thisModule.getNext(self.accesses->collect(e |
-				if e.oclIsKindOf(GAST!VariableAccess) then 
-					e.accessedTarget
-				else
-					false
-				endif
-			)->first());
-
---helper context GAST!Statement def: getDfNext (var : GAST!LocalVariable) : Sequence(GAST!Statement) =
+--helper context GAST!BlockStatement def: dfNext(var : GAST!LocalVariable) : Sequence(GAST!Statement)=
+--	self.statements->iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
 --	
-----	GAST!Statement.allInstances()->select(r | not r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
+--				e.accesses->collect(c | 	
+--					if  c.oclIsKindOf(GAST!VariableAccess)  then 
+--							if  c.accessedTarget = var then
+--		
+--									acc.including(e)
+--							else
+--									Sequence{}
+--							endif
+--					else
+--							Sequence{}
+--					endif
+--												));
+--helper def: getNext(var : GAST!LocalVariable) : Sequence(GAST!Statement) =
+--       GAST!BlockStatement.allInstances()->asSequence()->iterate(e; acc : Sequence(GAST!Statement)=  Sequence {} |
+--               acc.union(e.dfNext(var))
+--       );
 --
---GAST!Statement.allInstances()->reject(r |  r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
---	iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
---	
---	e.accesses->collect(c | 
---		
---		if  c.oclIsKindOf(GAST!VariableAccess)  then 
---			if  c.accessedTarget = var then
---		
---				acc.including(e)
---			else
---				Sequence{}
---			endif
---		else
---			Sequence{}
---		endif
---	)
---	
---	);
+--helper context GAST!Statement def: getDfNext  : Sequence(GAST!Statement) =
+--	thisModule.getNext(self.accesses->collect(e |
+--				if e.oclIsKindOf(GAST!VariableAccess) then 
+--					e.accessedTarget
+--				else
+--					false
+--				endif
+--			)->first());
+
+helper context GAST!Statement def: getDfNext (var : GAST!LocalVariable) : Sequence(GAST!Statement) =
+	
+--	GAST!Statement.allInstances()->select(r | not r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
+
+GAST!Statement.allInstances()->reject(r |  r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
+	iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
+	
+	e.accesses->collect(c | 
+		
+		if  c.oclIsKindOf(GAST!VariableAccess)  then 
+			if  c.accessedTarget = var then
+		
+				acc.including(e)
+			else
+				Sequence{}
+			endif
+		else
+			Sequence{}
+		endif
+	)
+	
+	);
 	
 	
 
@@ -98,16 +98,16 @@ abstract rule Statement2Node {
 		s : GAST!Statement( not s.oclIsKindOf(GAST!BlockStatement))
 	to 
 		t : CFG!AbstractNode (
-			dataFlow <- s.getDfNext
+--			dataFlow <- s.getDfNext
 			
---			dataFlow <- s.getDfNext(
---					s.accesses->collect(e |
---				if e.oclIsKindOf(GAST!VariableAccess) then 
---					e.accessedTarget
---				else
---					false
---				endif
---			)->first())
+			dataFlow <- s.getDfNext(
+					s.accesses->collect(e |
+				if e.oclIsKindOf(GAST!VariableAccess) then 
+					e.accessedTarget
+				else
+					false
+				endif
+			)->first())
 			,
 			dUse <- if not s.accesses.first().oclIsUndefined() and  s.accesses.first().oclIsKindOf(GAST!VariableAccess)then 
 						s.accesses.first().write.toString()
@@ -214,9 +214,22 @@ rule BranchStatement  extends Statement2Node{
 		s : GAST!BranchStatement
 	to 
 		t : CFG!ConditionalNode (
-			trueConditionNode <-   s.branches.first().statement,
-			falseConditionNode  <-  s.branches.last().statement
+			falseConditionNode <-  if s.branches.first().statement.oclIsKindOf(GAST!BlockStatement) then
+									 s.branches.first().statement.blockstatement
+									else
+										s.branches.first().statement
+									endif
 			,
+			 
+			trueConditionNode <-   if s.branches.last().statement.oclIsKindOf(GAST!BlockStatement) then 
+									 s.branches.last().statement.blockstatement
+									 else
+									 	s.branches.last().statement
+									endif
+									
+			,
+
+
 			toNode <- s.next
 			
 			
@@ -224,7 +237,8 @@ rule BranchStatement  extends Statement2Node{
 			
 		)
 	
-	
+	do{
+	}
 
 }
 
