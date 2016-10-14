@@ -138,25 +138,42 @@ public class LoadTest {
 								}
 							}
 							
+							
+							
+							
 							VarDetail varDetail = new VarDetail();
 							if(nodeList != null && nodeList.size() > 0){
 								
 								VarPath varPath = null;
 								Set<AbstractNode> visitNode = new HashSet<AbstractNode>();
 								
+								AbstractNode rootNode = nodeList.get(0);
+								visitNode.add(rootNode);
 								for (AbstractNode aNode : nodeList) {
-									varPath = new VarPath();
-									varPath.getNodePathList().add(aNode);
-									visitNode.add(aNode);// visited node
-									if(aNode.getDataFlow() != null && aNode.getDataFlow().size() > 0){
-									for (AbstractNode childNode : aNode.getDataFlow() ) {
+									
+									if(!visitNode.contains(aNode)){
+										varPath = new VarPath();
+										varPath.getNodePathList().add(rootNode);
+										varPath.getNodePathList().add(aNode);
+										visitNode.add(aNode);
 										
-										if(!visitNode.contains(childNode)){
-											varPath.getNodePathList().add(childNode);
+										
+										if(aNode.getDataFlow() != null && aNode.getDataFlow().size() > 0){
+											for (AbstractNode dfNode : aNode.getDataFlow()) {
+												
+												if(!visitNode.contains(dfNode)){
+													varPath.getNodePathList().add(dfNode);
+												}
+												
+//												}
+											}
 										}
+										varDetail.getPathList().add(varPath);
 									}
-									}
-									varDetail.getPathList().add(varPath);
+									
+									
+
+									
 								}
 							
 							}

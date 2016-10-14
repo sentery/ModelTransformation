@@ -214,14 +214,14 @@ rule BranchStatement  extends Statement2Node{
 		s : GAST!BranchStatement
 	to 
 		t : CFG!ConditionalNode (
-			falseConditionNode <-  if s.branches.first().statement.oclIsKindOf(GAST!BlockStatement) then
+			 trueConditionNode <-  if s.branches.first().statement.oclIsKindOf(GAST!BlockStatement) then
 									 s.branches.first().statement.blockstatement
 									else
 										s.branches.first().statement
 									endif
 			,
 			 
-			trueConditionNode <-   if s.branches.last().statement.oclIsKindOf(GAST!BlockStatement) then 
+			 falseConditionNode <-   if s.branches.last().statement.oclIsKindOf(GAST!BlockStatement) then 
 									 s.branches.last().statement.blockstatement
 									 else
 									 	s.branches.last().statement

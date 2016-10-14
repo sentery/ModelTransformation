@@ -5,6 +5,7 @@
 module GAST2CFG;
 create OUT : CFG from IN : GAST;
 
+helper def : ALL_STATEMENT: Sequence(GAST!Statement) =  GAST!Statement.allInstances();
 
 helper context GAST!BlockStatement def: getMap() : Map(GAST!Statement, GAST!Statement) =
 	self.statements->iterate(e; acc: TupleType(prev: GAST!Statement,map: Map(GAST!Statement, GAST!Statement)) = Tuple{ prev = Sequence {}->first(), map = Map{}} |
@@ -58,11 +59,13 @@ helper context GAST!Statement def: next : GAST!Statement =
 --				endif
 --			)->first());
 
+
+
 helper context GAST!Statement def: getDfNext (var : GAST!LocalVariable) : Sequence(GAST!Statement) =
 	
 --	GAST!Statement.allInstances()->select(r | not r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
 
-GAST!Statement.allInstances()->reject(r |  r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
+thisModule.ALL_STATEMENT->reject(r |  r.oclIsKindOf(GAST!BlockStatement))->reject(r1 | r1 = self)->
 	iterate(e; acc: Sequence(GAST!Statement) = Sequence{} |
 	
 	e.accesses->collect(c | 
@@ -214,18 +217,19 @@ rule BranchStatement  extends Statement2Node{
 		s : GAST!BranchStatement
 	to 
 		t : CFG!ConditionalNode (
-			falseConditionNode <-  if s.branches.first().statement.oclIsKindOf(GAST!BlockStatement) then
-									 s.branches.first().statement.blockstatement
-									else
-										s.branches.first().statement
-									endif
-			,
-			 
-			trueConditionNode <-   if s.branches.last().statement.oclIsKindOf(GAST!BlockStatement) then 
+
+			 trueConditionNode<-   if s.branches.last().statement.oclIsKindOf(GAST!BlockStatement) then 
 									 s.branches.last().statement.blockstatement
 									 else
 									 	s.branches.last().statement
 									endif
+									,
+			falseConditionNode  <-  if s.branches.first().statement.oclIsKindOf(GAST!BlockStatement) then
+									 s.branches.first().statement.blockstatement
+									else
+										s.branches.first().statement
+									endif
+			 
 									
 			,
 
